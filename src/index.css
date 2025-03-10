@@ -1,0 +1,12 @@
+@import "tailwindcss";
+
+body {
+  color: white;
+  font-family: "Roboto", sans-serif;
+}
+
+@layer {
+  .menu-active{
+    @apply !-left-0 !transition-all 
+  }
+}
