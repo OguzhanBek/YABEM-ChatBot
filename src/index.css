@@ -6,7 +6,8 @@ body {
 }
 
 @layer {
-  .menu-active{
-    @apply !-left-0 !transition-all 
+  .menu-active {
+    @apply !-left-0 !transition-all;
   }
 }
+@custom-variant dark (&:where(.dark, .dark *));
