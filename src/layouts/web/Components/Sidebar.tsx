@@ -1,11 +1,13 @@
-
 import { BiEdit } from "react-icons/bi";
 import { FaRegEdit } from "react-icons/fa";
 import { IoMdSearch } from "react-icons/io";
 import { MdOutlineSpaceDashboard } from "react-icons/md";
 import { Link } from "react-router-dom";
+import { useSearch } from "../../../context/Context";
 
 export const Sidebar = () => {
+  const { toggleSearch } = useSearch(); // toggleSearch fonksiyonunu al
+
   return (
     <div
       className="bg-[#171717] h-screen flex flex-col w-[250px] md:relative absolute  gap-4 z-10 md:-left-0 -left-[300px] transition-all border-b border-[#2c2f33]"
@@ -24,23 +26,21 @@ export const Sidebar = () => {
             >
               <MdOutlineSpaceDashboard
                 className={`text-[#9B9B9B] group-hover:text-white transition-colors $ `}
-            
               />
             </button>
           </div>
           <div className="flex flex-row gap-2 ">
-            <Link
-              to={"/"}
+            
+            {/* Link kodu div ile  değişti. */}{" "}
+            <div
               className="cursor-pointer hover:bg-white/20 items-center justify-center w-10 h-10 p-2 rounded-sm group"
-              onClick={() => {
-                alert("clicked");
-              }}
+              onClick={toggleSearch}
             >
               <IoMdSearch
                 size={24}
-                className="text-[#9B9B9B] group-hover:text-white transition-colors "
+                className="text-[#9B9B9B] group-hover:text-white transition-colors"
               />
-            </Link>
+            </div>
             <Link
               to={"/"}
               className="cursor-pointer hover:bg-white/20 items-center justify-center w-10 h-10 p-2 rounded-sm group"

@@ -5,27 +5,24 @@ export type UserData = {
   password: string;
   id: string;
 };
+
 // Store'un tip tanımları
 interface StoreState {
-  // User state'i
   user: UserData;
   updateUser: (value: UserData) => void;
+
 }
 
 // Store'u oluşturma
 const useStore = create<StoreState>((set) => ({
-  // Counter state'i ve fonksiyonları
-
-  // User state ve fonksiyonları
-  user: (JSON.parse(localStorage.getItem("users")) as UserData) || {
+  // Kullanıcı bilgilerini saklayan state
+  user: (JSON.parse(localStorage.getItem("users") || "null") as UserData) || {
     name: "",
     password: "",
     id: "",
   },
-  updateUser: (value) =>
-    set(() => ({
-      user: value,
-    })),
+  updateUser: (value) => set(() => ({ user: value })),
+
 }));
 
 export default useStore;

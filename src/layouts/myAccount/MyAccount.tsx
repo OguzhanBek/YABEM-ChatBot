@@ -1,45 +1,76 @@
 import { useNavigate } from "react-router-dom";
+import { Modal } from "../../components/template/modal";
+import { LiaTimesSolid } from "react-icons/lia";
+import { FaRegComments, FaRegEdit } from "react-icons/fa";
 
 function MyAccount() {
-  const navigate = useNavigate();
-  const returnHome = () => {
-    navigate("/");
-  };
-  const changePassword =()=>{
-    alert("şifre değiştir")
-  }
+  const { toggleSearch } = useSearch(); // toggleSearch fonksiyonunu al
   return (
-    <div className="w-3xl bg-[#2F2F2F] absolute translate z-10 h-6/12 rounded-lg top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-lg text-center">
-      <header className="border-b-1 h-15">
-        <div className="flex flex-row  justify-between mt-5">
-          <h2 className="ml-7 ">Hesap Bilgileri</h2>
-          <span
-            onClick={returnHome}
-            className="w-10 h-10 cursor-pointer mr-5 rounded-full text-white hover:bg-[#676767] flex justify-center items-center"
+    <Modal>
+      <div className="bg-[#303030] w-[30%] rounded-lg p-4">
+        <div className="flex flex-row gap-2 border-b border-[#808080] pb-2 mb-2">
+          <input
+            type="text"
+            className="w-full p-2 rounded-md bg-[#303030] text-white outline-none"
+            placeholder="Ara..."
+          />
+          <button
+            className="cursor-pointer hover:bg-white/20 items-center justify-center w-10 h-10 p-2 rounded-sm group"
+            onClick={toggleSearch} // toggleSearch fonksiyonunu çağır
           >
-            X
-          </span>
+            <LiaTimesSolid
+              size={24}
+              className="text-[#9B9B9B] group-hover:text-white transition-colors"
+            />
+          </button>
         </div>
-      </header>
-      <main className="flex flex-row mt-10">
-        <div className="w-[80%] m-auto h-full">
-          <div className=" flex flex-row justify-center gap-30">
-            <span className="w-30 text-start ">Email :</span>
-            <span className="w-60">Kullanıcı bilgisi gelecek</span>
+        <div>
+          <div className="flex flex-row px-4 py-2 items-center rounded-sm hover:bg-white/10 w-full gap-2 cursor-pointer text-sm">
+            <FaRegEdit
+              size={18}
+              className="text-white group-hover:text-white transition-colors"
+            />
+            <span className="text-white">Yeni Sohbet</span>
           </div>
-          <div className=" flex flex-row justify-center mt-2  gap-30 ">
-            <span className="w-30 text-start">Şifre : </span>
-            <span className="w-60">Kullanıcı bilgisi gelecek</span>
-          </div>
-          <div className=" flex flex-row justify-center mt-2 gap-30 text-start">
-            <span onClick={changePassword} className="w-30 text-start cursor-pointer hover:opacity-75">
-              Şifre değiştir
-            </span>
-            <span className="w-60"></span>
-          </div>
+
+          <ul>
+            <li>
+              <div className="flex flex-row px-4 py-2 items-center rounded-sm hover:bg-white/10 w-full gap-2 cursor-pointer text-sm">
+                <FaRegComments
+                  size={18}
+                  className="text-white group-hover:text-white transition-colors"
+                />
+                <span className="text-white">
+                  Zustand React TypeScript Kurulumu
+                </span>
+              </div>
+            </li>
+            <li>
+              <div className="flex flex-row px-4 py-2 items-center rounded-sm hover:bg-white/10 w-full gap-2 cursor-pointer text-sm">
+                <FaRegComments
+                  size={18}
+                  className="text-white group-hover:text-white transition-colors"
+                />
+                <span className="text-white">
+                  Zustand React TypeScript Kurulumu
+                </span>
+              </div>
+            </li>
+            <li>
+              <div className="flex flex-row px-4 py-2 items-center rounded-sm hover:bg-white/10 w-full gap-2 cursor-pointer">
+                <FaRegComments
+                  size={18}
+                  className="text-white group-hover:text-white transition-colors"
+                />
+                <span className="text-white">
+                  Zustand React TypeScript Kurulumu
+                </span>
+              </div>
+            </li>
+          </ul>
         </div>
-      </main>
-    </div>
+      </div>
+    </Modal>
   );
 }
 
