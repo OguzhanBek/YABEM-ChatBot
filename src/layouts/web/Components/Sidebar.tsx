@@ -1,18 +1,22 @@
-
 import { BiEdit } from "react-icons/bi";
 import { FaRegEdit } from "react-icons/fa";
 import { IoMdSearch } from "react-icons/io";
 import { MdOutlineSpaceDashboard } from "react-icons/md";
 import { Link } from "react-router-dom";
+import Modal, { ModalRef } from "../../../components/template/modal";
+import SearchModalContent from "../../../components/molecules/searchModalContent";
+import { useRef } from "react";
 
 export const Sidebar = () => {
+  const modalRef = useRef<ModalRef>(null);
+
   return (
     <div
       className="bg-[#171717] h-screen flex flex-col w-[250px] md:relative absolute  gap-4 z-10 md:-left-0 -left-[300px] transition-all border-b border-[#2c2f33]"
       id="menu"
     >
       <div className="flex flex-col">
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between p-2">
           <div className="text-white text-2xl font-bold">
             <button
               className="cursor-pointer hover:bg-white/20 items-center justify-center w-10 h-10 p-2 rounded-sm group"
@@ -24,23 +28,21 @@ export const Sidebar = () => {
             >
               <MdOutlineSpaceDashboard
                 className={`text-[#9B9B9B] group-hover:text-white transition-colors $ `}
-            
               />
             </button>
           </div>
           <div className="flex flex-row gap-2 ">
-            <Link
-              to={"/"}
+            <button
               className="cursor-pointer hover:bg-white/20 items-center justify-center w-10 h-10 p-2 rounded-sm group"
               onClick={() => {
-                alert("clicked");
+                modalRef.current?.open();
               }}
             >
               <IoMdSearch
                 size={24}
                 className="text-[#9B9B9B] group-hover:text-white transition-colors "
               />
-            </Link>
+            </button>
             <Link
               to={"/"}
               className="cursor-pointer hover:bg-white/20 items-center justify-center w-10 h-10 p-2 rounded-sm group"
@@ -79,7 +81,7 @@ export const Sidebar = () => {
             <li>
               <span className="text-xs font-semibold">bugün</span>
               <Link
-                to={"room/1"}
+                to={"chat/1"}
                 className="flex flex-row px-2 py-2 items-center rounded-sm hover:bg-white/10 w-full gap-2 cursor-pointer"
               >
                 <span className="font-normal text-sm">
@@ -90,6 +92,9 @@ export const Sidebar = () => {
           ))}
         </ul>
       </div>
+      <Modal ref={modalRef}>
+        <SearchModalContent modalRef={modalRef} />
+      </Modal>
     </div>
   );
 };
