@@ -40,7 +40,7 @@ export const Sidebar = () => {
             >
               <IoMdSearch
                 size={24}
-                className="text-[#9B9B9B] group-hover:text-white transition-colors "
+                className="text-[#9B9B9B] group-hover:text-white transition-colors"
               />
             </button>
             <Link
