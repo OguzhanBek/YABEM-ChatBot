@@ -1,7 +1,7 @@
 import React from "react";
 import { FaRegComments, FaRegEdit } from "react-icons/fa";
 import { LiaTimesSolid } from "react-icons/lia";
-import { ModalRef } from "../../template/modal";
+import { ModalRef } from "../../template/modal/Modal";
 
 type SearchModalContentProps = {
   modalRef: React.RefObject<ModalRef | null>;

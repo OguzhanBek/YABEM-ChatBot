@@ -3,8 +3,8 @@ import { FaRegEdit } from "react-icons/fa";
 import { IoMdSearch } from "react-icons/io";
 import { MdOutlineSpaceDashboard } from "react-icons/md";
 import { Link } from "react-router-dom";
-import Modal, { ModalRef } from "../../../components/template/modal";
-import SearchModalContent from "../../../components/molecules/searchModalContent";
+import Modal, { ModalRef } from "../../../components/template/modal/Modal";
+import SearchModalContent from "../../../components/molecules/searchModalContent/SearchModalContent";
 import { useRef } from "react";
 
 export const Sidebar = () => {

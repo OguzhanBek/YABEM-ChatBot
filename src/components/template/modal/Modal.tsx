@@ -10,7 +10,7 @@ export type ModalRef = {
   close: () => void;
 };
 
-const Modal = forwardRef<ModalRef, ModalProps>(({ children }, ref) => {
+const Modal = forwardRef<ModalRef, ModalProps> (({ children }, ref) => {
   const [isOpen, setIsOpen] = React.useState(false);
 
   // Modal'ı açmak için fonksiyon
@@ -24,9 +24,7 @@ const Modal = forwardRef<ModalRef, ModalProps>(({ children }, ref) => {
     open,
     close,
   }));
-
   if (!isOpen) return null;
-
   return ReactDOM.createPortal(
     <div className="absolute w-screen h-screen bg-black/50 bg-opacity-10 top-0 left-0 flex justify-center items-center z-50">
       {children}

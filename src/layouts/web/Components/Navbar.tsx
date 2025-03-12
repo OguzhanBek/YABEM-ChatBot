@@ -1,7 +1,14 @@
+import { useEffect, useRef, useState } from "react";
 import { MdKeyboardArrowDown, MdOutlineSpaceDashboard } from "react-icons/md";
 import { Link } from "react-router-dom";
-
+import Modal, { ModalRef } from "../../../components/template/modal/Modal";
+import SettingModel from "../../../components/molecules/settingsModel/SettingModel";
+import { deleteCollectionData } from "../../../utils/firebasehelper";
 export const Navbar = () => {
+
+
+
+  const modelRef = useRef<ModalRef>(null);
   return (
     <div className="w-full relative flex flex-row p-4 justify-between border-b border-[#1e2124] h-12 items-center gap-2">
       <div className="text-white text-2xl font-bold block md:hidden">
@@ -40,22 +47,24 @@ export const Navbar = () => {
                 >
                   Login
                 </Link>
-                <Link
-                  to="/profile"
-                  className="block text-white py-2 px-1 hover:bg-white/10 transition-colors"
-                >
-                  Hesabım
-                </Link>
-                <Link
-                  to="/settings"
-                  className="block text-white py-2 px-1 hover:bg-white/10 transition-colors"
+              </li>
+              <li>
+                <button
+                  onClick={() => modelRef.current?.open()}
+                  className="block text-white cursor-pointer w-full text-left  py-2 px-1 hover:bg-white/10 transition-colors"
                 >
                   Ayarlar
-                </Link>
+                </button>
+              </li>
+              <li>
                 <Link
-                  to="/logout"
+                  onClick={() =>{ localStorage.removeItem("user")
+                    deleteCollectionData("user" , "");
+                    
+                  }}
+                  to="/login"
                   className="block text-white py-2 px-1 hover:bg-white/10 transition-colors"
-                >
+                > 
                   Çıkış
                 </Link>
               </li>
@@ -63,6 +72,9 @@ export const Navbar = () => {
           </div>
         </div>
       </div>
+      <Modal ref={modelRef}>
+        <SettingModel modalRef={modelRef} />
+      </Modal>
     </div>
   );
 };
