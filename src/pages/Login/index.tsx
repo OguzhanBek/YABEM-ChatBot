@@ -1,9 +1,7 @@
 import { useState } from "react";
-import {useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { handleSignUp } from "../../utils/userhelper";
-import {
-  getAllCollectionData
-} from "../../utils/firebasehelper";
+import { getAllCollectionData } from "../../utils/firebasehelper";
 import useStore, { UserData } from "../../stores";
 import { toast } from "react-toastify";
 
@@ -25,15 +23,19 @@ export const Login = () => {
 
       if (existingUser) {
         toast.success("Giriş Başarılı", {
-          position: "top-right",
+          position: "top-center",
           autoClose: 3000,
           theme: "colored",
         });
-        localStorage.setItem("user", JSON.stringify(existingUser));
-        navigate("/");
+        let userData: UserData = {
+          id: existingUser.id,
+          mail: existingUser.email,
+          password: existingUser.password,
+        };
+        updateUser(userData);
       } else {
         toast.error("Kullanıcı bilgileri hatalı", {
-          position: "top-right",
+          position: "top-center",
           autoClose: 5000,
           theme: "colored",
         });
@@ -45,7 +47,7 @@ export const Login = () => {
 
       if (existingUser) {
         toast.error("Bu mail zaten kullanılıyor", {
-          position: "top-right",
+          position: "top-center",
           autoClose: 3000,
           theme: "colored",
         });
@@ -59,19 +61,16 @@ export const Login = () => {
       } else {
         let userData: UserData = {
           id: request.data.id,
-          name: form.email,
+          mail: form.email,
           password: form.password,
         };
         updateUser(userData);
-        localStorage.setItem("user", JSON.stringify(userData));
 
         toast.success("Kayıt Başarılı", {
-          position: "top-right",
+          position: "top-center",
           autoClose: 3000,
           theme: "colored",
         });
-
-        navigate("/");
       }
     }
 

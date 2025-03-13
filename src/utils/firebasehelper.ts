@@ -6,6 +6,8 @@ import {
   getDocs,
   updateDoc,
   deleteDoc,
+  query,
+  where,
 } from "firebase/firestore";
 import { db, realtime } from "../firebase";
 import { get, ref, remove, set } from "firebase/database";
@@ -177,6 +179,28 @@ export const pushMessage = async (roomId: string, newMessage: Message) => {
     });
     return true;
   } catch (error) {
+    return false;
+  }
+};
+
+export const deleteUserById = async (userId: string) => {
+  try {
+    const q = query(collection(db, "users"), where("id", "==", userId));
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.empty) {
+      console.log("No user found with this ID.");
+      return false;
+    }
+
+    for (const docSnap of querySnapshot.docs) {
+      await deleteDoc(docSnap.ref);
+      console.log(`Deleted user document with Firestore ID: ${docSnap.id}`);
+    }
+
+    return true;
+  } catch (error) {
+    console.error("Error deleting user: ", error);
     return false;
   }
 };

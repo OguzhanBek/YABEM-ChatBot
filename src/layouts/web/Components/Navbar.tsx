@@ -1,14 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 import { MdKeyboardArrowDown, MdOutlineSpaceDashboard } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import Modal, { ModalRef } from "../../../components/template/modal/Modal";
 import SettingModel from "../../../components/molecules/settingsModel/SettingModel";
 import { deleteCollectionData } from "../../../utils/firebasehelper";
+import useStore from "../../../stores";
 export const Navbar = () => {
-
-
-
   const modelRef = useRef<ModalRef>(null);
+  const { logout } = useStore();
+  const navigate = useNavigate();
   return (
     <div className="w-full relative flex flex-row p-4 justify-between border-b border-[#1e2124] h-12 items-center gap-2">
       <div className="text-white text-2xl font-bold block md:hidden">
@@ -41,14 +41,6 @@ export const Navbar = () => {
           >
             <ul>
               <li>
-                <Link
-                  to="/login"
-                  className="block text-white py-2 px-1 hover:bg-white/10 transition-colors"
-                >
-                  Login
-                </Link>
-              </li>
-              <li>
                 <button
                   onClick={() => modelRef.current?.open()}
                   className="block text-white cursor-pointer w-full text-left  py-2 px-1 hover:bg-white/10 transition-colors"
@@ -57,16 +49,16 @@ export const Navbar = () => {
                 </button>
               </li>
               <li>
-                <Link
-                  onClick={() =>{ localStorage.removeItem("user")
-                    deleteCollectionData("user" , "");
-                    
+                <button
+                  onClick={() => {
+                    logout();
+                    localStorage.removeItem("user");
+                    navigate("/");
                   }}
-                  to="/login"
-                  className="block text-white py-2 px-1 hover:bg-white/10 transition-colors"
-                > 
+                  className="block text-white py-2 px-1 hover:bg-white/10 transition-colors w-full text-left"
+                >
                   Çıkış
-                </Link>
+                </button>
               </li>
             </ul>
           </div>

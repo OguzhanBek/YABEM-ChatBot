@@ -5,12 +5,15 @@ import { MdAccountCircle, MdDelete } from "react-icons/md";
 import { IoMdSettings } from "react-icons/io";
 import { FaMoon, FaSun } from "react-icons/fa";
 import { deleteCollectionData } from "../../../utils/firebasehelper";
+import useStore from "../../../stores";
 
 type SettingModalProps = {
   modalRef: React.RefObject<ModalRef | null>;
 };
 
 const SettingModel: React.FC<SettingModalProps> = ({ modalRef }) => {
+  const { user, removeUser } = useStore();
+
   const [selectedSetting, setSelectedSetting] = useState("Hesap Bilgileri");
   const [deleteColor, setDeleteColor] = useState(true);
   const [changeTheme, setChangeTheme] = useState(false);
@@ -31,38 +34,6 @@ const SettingModel: React.FC<SettingModalProps> = ({ modalRef }) => {
       information: "Hesabı Sil",
     },
   ];
-
-  const [user, setUser] = useState<{ email: string; password: string } | null>(
-    null
-  );
-
-  useEffect(() => {
-    const userData = localStorage.getItem("user");
-    if (userData) {
-      setUser(JSON.parse(userData));
-    }
-  }, []);
-
-  const handleDeleteAccount = async () => {
-    const userData = localStorage.getItem("user");
-
-    if (!userData) {
-      alert("Kullanıcı bulunamadı!");
-      return;
-    }
-
-    const user = JSON.parse(userData);
-
-    const result = await deleteCollectionData("users", user.id);
-
-    if (result) {
-      alert("Hesabınız başarıyla silindi!");
-      localStorage.removeItem("user"); // localStorage'dan kullanıcıyı kaldır
-      window.location.reload(); // Sayfayı yenileyerek oturumu sonlandır
-    } else {
-      alert("Hesabı silerken bir hata oluştu!");
-    }
-  };
 
   return (
     <div className="bg-[#303030]  sm:w-[90%] md:w-[60%]  lg:w-[50%] min-h-160 rounded-lg p-2 sm:p-4 ">
@@ -112,7 +83,7 @@ const SettingModel: React.FC<SettingModalProps> = ({ modalRef }) => {
               <div className="flex gap-2">
                 <p className="font-semibold w-20 sm:w-24">Email:</p>
                 {user ? (
-                  <span>{user.email}</span>
+                  <span>{user?.mail}</span>
                 ) : (
                   <span>kullanıcı bulunamadı</span>
                 )}
@@ -163,7 +134,7 @@ const SettingModel: React.FC<SettingModalProps> = ({ modalRef }) => {
                   deleteColor ? "bg-red-600" : "bg-blue-600"
                 } text-white px-3 sm:px-4 py-1 sm:py-2 rounded mt-2 cursor-pointer`}
                 onClick={() => {
-               { handleDeleteAccount };
+                  removeUser();
                 }}
               >
                 Hesabı Sil

@@ -78,7 +78,9 @@ export const Sidebar = () => {
       >
         <ul>
           {Array.from({ length: 1 }).map((_, index) => (
-            <li>
+            <li
+            key={index}
+            >
               <span className="text-xs font-semibold">bugün</span>
               <Link
                 to={"chat/1"}

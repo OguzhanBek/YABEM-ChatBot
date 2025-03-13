@@ -1,12 +1,20 @@
 import { RouterProvider } from "react-router-dom";
-import { router } from "./routes";
+import { loginRouter, router } from "./routes";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
+import useStore from "./stores";
+
 export const AppProvider = () => {
+  const { user } = useStore();
+
   return (
     <>
-        <ToastContainer />
-        <RouterProvider router={router} />
+      <RouterProvider
+        key={user ? "authenticated" : "unauthenticated"}
+        router={user ? router : loginRouter}
+      />
+      <ToastContainer />
     </>
   );
 };

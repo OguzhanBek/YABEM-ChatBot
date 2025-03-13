@@ -1,28 +1,42 @@
 import { create } from "zustand";
+import { deleteUserById } from "../utils/firebasehelper";
 
 export type UserData = {
-  name: string;
+  mail: string;
   password: string;
   id: string;
 };
 
-// Store'un tip tanımları
 interface StoreState {
-  user: UserData;
-  updateUser: (value: UserData) => void;
-
+  user: UserData | null;
+  updateUser: (value: UserData | null) => void;
+  logout: () => void;
+  removeUser: () => void;
 }
 
-// Store'u oluşturma
-const useStore = create<StoreState>((set) => ({
-  // Kullanıcı bilgilerini saklayan state
-  user: (JSON.parse(localStorage.getItem("users") || "null") as UserData) || {
-    name: "",
-    password: "",
-    id: "",
-  },
-  updateUser: (value) => set(() => ({ user: value })),
+let userData: UserData | null = null;
+const userDataString = localStorage.getItem("user");
+if (userDataString) {
+  userData = JSON.parse(userDataString);
+}
 
+const useStore = create<StoreState>((set) => ({
+  user: userData,
+  updateUser: (value) => {
+    localStorage.setItem("user", JSON.stringify(value));
+    set(() => ({ user: value }));
+  },
+  logout: () => {
+    localStorage.removeItem("user");
+    set(() => ({ user: null }));
+  },
+  removeUser: () => {
+    if (userData) {
+      deleteUserById(userData?.id || "");
+    }
+    localStorage.removeItem("user");
+    set(() => ({ user: null }));
+  },
 }));
 
 export default useStore;
