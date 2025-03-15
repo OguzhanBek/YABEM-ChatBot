@@ -1,14 +1,16 @@
-
-export const MessageCard = () => {
-
-  // bot için flex flex-col gap-4  items-start
+type MessageCardProps = {
+  text: string;
+  type: "bot" | "user";
+};
+export const MessageCard: React.FC<MessageCardProps> = (props) => {
   return (
-    <div className="flex flex-col gap-4  items-end">
+    <div
+      className={`flex flex-col gap-4  items-${
+        props.type === "bot" ? "start" : "end"
+      }`}
+    >
       <div className="md:max-w-[60%] max-w-full bg-[#303030] p-4 rounded-md">
-        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eaque a
-        reprehenderit natus nobis nam similique, vero incidunt placeat quaerat
-        libero rerum omnis earum asperiores nihil saepe magni neque in
-        reiciendis.asdasd
+        {props.text}
       </div>
     </div>
   );

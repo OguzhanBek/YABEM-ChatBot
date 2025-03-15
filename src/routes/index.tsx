@@ -16,6 +16,10 @@ export const router = createBrowserRouter([
         element: <Home />,
       },
       {
+        path: "/chat/new",
+        element: <Home />,
+      },
+      {
         path: "/chat/:id",
         element: <Room />,
       },

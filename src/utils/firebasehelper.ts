@@ -12,20 +12,7 @@ import {
 import { db, realtime } from "../firebase";
 import { get, ref, remove, set } from "firebase/database";
 import { generateUUID } from "./helper";
-
-export type Message = {
-  text: string;
-  type: "bot" | "user";
-  createAt?: number;
-};
-
-export type RoomType = {
-  roomName: string;
-  roomId: string;
-  userId: string;
-  createAt: number;
-  messages: Message[];
-};
+import { Chats, Message } from "../stores";
 
 // Create (Add new document)
 export const setCollectionData = async (table: string, data: object) => {
@@ -100,7 +87,7 @@ export const deleteCollectionData = async (table: string, id: string) => {
 // realtime database w/socket
 
 export const getRoomList = async () => {
-  const result: RoomType[] = [];
+  const result: Chats[] = [];
   const dataRef = ref(realtime, "rooms");
 
   try {
@@ -120,7 +107,7 @@ export const getRoomList = async () => {
 };
 
 export const getRoomData = async (roomId: string) => {
-  let result: RoomType = {
+  let result: Chats = {
     messages: [],
     roomId: "",
     roomName: "",
@@ -130,7 +117,7 @@ export const getRoomData = async (roomId: string) => {
   const dataRef = ref(realtime, `rooms/${roomId}`);
   const snapshot = await get(dataRef);
   if (snapshot.exists()) {
-    const data: RoomType = snapshot.val();
+    const data: Chats = snapshot.val();
     if (data) return data;
   } else {
     console.log("Veri bulunamadı");
@@ -138,25 +125,21 @@ export const getRoomData = async (roomId: string) => {
   return result;
 };
 
-export const crateRoom = async (userId: string) => {
+export const createRoom = async (userId: string, message: Message) => {
   let roomlist = await getRoomList();
   const uuid = await generateUUID(18);
-  set(ref(realtime, `rooms/${uuid}`), {
-    roomName: `Yeni Oda #${
+  let data = {
+    roomName: `Yeni Oda bombo #${
       roomlist.filter((u) => u.userId === userId).length + 1 || 1
     }`,
     roomId: uuid,
     createAt: new Date().valueOf(),
     userId: userId,
     createDate: new Date().valueOf(),
-    messages: [
-      {
-        text: "Merhaba nasıl yardımcı olabilİrim ?",
-        type: "bot",
-      },
-    ],
-  });
-  return uuid;
+    messages: [message],
+  };
+  set(ref(realtime, `rooms/${uuid}`), data);
+  return data;
 };
 export const removeRoom = async (roomId: string) => {
   try {

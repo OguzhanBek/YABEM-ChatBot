@@ -3,10 +3,11 @@ import { removeRoom } from "./firebasehelper";
 import md5 from "md5";
 
 import { MD5_SALT } from "../../config";
-export type Message = {
-  text: string;
-  type: "bot" | "user";
-  createAt?: number;
+import { Chats } from "../stores";
+
+type GroupedChats = {
+  badge: string;
+  chats: Chats[];
 };
 
 export const generateUUID = (length = 18) => {
@@ -36,4 +37,51 @@ export const createMessage = (text: string, type: "bot" | "user") => ({
 export const generateMD5 = (text: string) => {
   const MD5_KEY = MD5_SALT;
   return md5(text + MD5_KEY);
+};
+
+export const groupChatsByDate = (chats: Chats[]): GroupedChats[] => {
+  const now = new Date();
+  const groups: { [key: string]: Chats[] } = {
+    day: [],
+    yesterday: [],
+    week: [],
+    month: [],
+    older: [],
+  };
+
+  chats
+    .sort((a, b) => b.createAt - a.createAt)
+    .forEach((chat) => {
+      const chatDate = new Date(chat.createAt);
+      const diffTime = now.getTime() - chatDate.getTime();
+      const diffDays = diffTime / (1000 * 60 * 60 * 24);
+
+      if (diffDays < 1) {
+        groups.day.push(chat);
+      } else if (diffDays < 2) {
+        groups.yesterday.push(chat);
+      } else if (diffDays < 7) {
+        groups.week.push(chat);
+      } else if (diffDays < 30) {
+        groups.month.push(chat);
+      } else {
+        groups.older.push(chat);
+      }
+    });
+
+  return Object.entries(groups)
+    .filter(([_, chats]) => chats.length > 0) // Boş grupları kaldır
+    .map(([badge, chats]) => ({
+      badge:
+        badge === "day"
+          ? "bugün"
+          : badge === "yesterday"
+          ? "dün"
+          : badge === "week"
+          ? "1 hafta önce"
+          : badge === "month"
+          ? "1 ay önce"
+          : "1 aydan önce",
+      chats,
+    }));
 };

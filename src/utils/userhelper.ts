@@ -4,8 +4,6 @@ import { generateMD5, generateUUID } from "./helper";
 export const handleSignUp = async (email: string, password: string) => {
   try {
     let userId = generateUUID();
-    console.log("şifre", generateMD5(password));
-    console.log("şifresiz şifre", password);
     const result = await setCollectionData("users", {
       email: email,
       password: generateMD5(password),

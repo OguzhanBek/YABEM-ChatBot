@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import Modal, { ModalRef } from "../../../components/template/modal/Modal";
 import SearchModalContent from "../../../components/molecules/searchModalContent/SearchModalContent";
 import { useRef } from "react";
+import { Chatlist } from "../../../components/molecules/chatList/Chatlist";
 
 export const Sidebar = () => {
   const modalRef = useRef<ModalRef>(null);
@@ -76,23 +77,7 @@ export const Sidebar = () => {
       [&::-webkit-scrollbar-track]:bg-transparent
       [&::-webkit-scrollbar-thumb]:bg-[#424242]"
       >
-        <ul>
-          {Array.from({ length: 1 }).map((_, index) => (
-            <li
-            key={index}
-            >
-              <span className="text-xs font-semibold">bugün</span>
-              <Link
-                to={"chat/1"}
-                className="flex flex-row px-2 py-2 items-center rounded-sm hover:bg-white/10 w-full gap-2 cursor-pointer"
-              >
-                <span className="font-normal text-sm">
-                  Youtube Regex Hatası
-                </span>
-              </Link>
-            </li>
-          ))}
-        </ul>
+        <Chatlist />
       </div>
       <Modal ref={modalRef}>
         <SearchModalContent modalRef={modalRef} />
