@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { handleSignUp } from "../../utils/userhelper";
 import { getAllCollectionData } from "../../utils/firebasehelper";
 import useStore, { UserData } from "../../stores";
@@ -9,7 +8,6 @@ import { generateMD5 } from "../../utils/helper";
 export const Login = () => {
   const [formType, setformType] = useState<"login" | "register">("login");
   const [form, setForm] = useState({ email: "", password: "" });
-  const navigate = useNavigate();
   const [loginLoader, setLoginLoader] = useState(false);
   const { updateUser } = useStore();
 

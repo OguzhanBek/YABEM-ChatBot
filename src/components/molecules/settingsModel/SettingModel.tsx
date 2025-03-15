@@ -14,7 +14,7 @@ const SettingModel: React.FC<SettingModalProps> = ({ modalRef }) => {
   const { user, removeUser } = useStore();
 
   const [selectedSetting, setSelectedSetting] = useState("Hesap Bilgileri");
-  const [deleteColor, setDeleteColor] = useState(true);
+  const [deleteColor, _] = useState(true);
   const [changeTheme, setChangeTheme] = useState(false);
   const settingParts = [
     {

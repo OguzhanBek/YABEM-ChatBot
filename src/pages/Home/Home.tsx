@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 export const Home = () => {
-  const { user, updateChats, fetchChats } = useStore();
+  const { user, fetchChats } = useStore();
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
 

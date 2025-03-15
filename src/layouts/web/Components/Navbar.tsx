@@ -1,9 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import {  useRef } from "react";
 import { MdKeyboardArrowDown, MdOutlineSpaceDashboard } from "react-icons/md";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Modal, { ModalRef } from "../../../components/template/modal/Modal";
 import SettingModel from "../../../components/molecules/settingsModel/SettingModel";
-import { deleteCollectionData } from "../../../utils/firebasehelper";
+
 import useStore from "../../../stores";
 export const Navbar = () => {
   const modelRef = useRef<ModalRef>(null);
