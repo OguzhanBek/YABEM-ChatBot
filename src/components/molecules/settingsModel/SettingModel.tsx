@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { ModalRef } from "../../template/modal/Modal";
 import { LiaTimesSolid } from "react-icons/lia";
 import { MdAccountCircle, MdDelete } from "react-icons/md";
 import { IoMdSettings } from "react-icons/io";
 import { FaMoon, FaSun } from "react-icons/fa";
-import { deleteCollectionData } from "../../../utils/firebasehelper";
 import useStore from "../../../stores";
 
 type SettingModalProps = {

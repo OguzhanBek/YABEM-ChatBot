@@ -1,7 +1,8 @@
 import axios from "axios";
 import { removeRoom } from "./firebasehelper";
+import md5 from "md5";
 
-
+import { MD5_SALT } from "../../config";
 export type Message = {
   text: string;
   type: "bot" | "user";
@@ -31,3 +32,8 @@ export const createMessage = (text: string, type: "bot" | "user") => ({
   type,
   createdAt: new Date().valueOf(),
 });
+
+export const generateMD5 = (text: string) => {
+  const MD5_KEY = MD5_SALT;
+  return md5(text + MD5_KEY);
+};

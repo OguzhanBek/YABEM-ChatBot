@@ -4,6 +4,7 @@ import { handleSignUp } from "../../utils/userhelper";
 import { getAllCollectionData } from "../../utils/firebasehelper";
 import useStore, { UserData } from "../../stores";
 import { toast } from "react-toastify";
+import { generateMD5 } from "../../utils/helper";
 
 export const Login = () => {
   const [formType, setformType] = useState<"login" | "register">("login");
@@ -18,7 +19,7 @@ export const Login = () => {
 
     if (formType === "login") {
       const existingUser = (await getAllCollectionData("users")).find(
-        (user) => user.email === form.email
+        (user) => user.email === form.email && user.password === generateMD5(form.password)
       );
 
       if (existingUser) {
