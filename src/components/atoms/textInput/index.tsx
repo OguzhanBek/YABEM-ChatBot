@@ -7,9 +7,10 @@ type TextInputProps = {
 };
 export const TextInput: React.FC<TextInputProps> = (props) => {
   return (
-    <div className="md:w-[60%] w-full mx-auto bg-[#303030] p-4 rounded-md">
-      <div>
-        <textarea
+    <div className="md:w-[60%] w-full mx-auto bg-[#949494] dark:bg-[#303030] p-4 rounded-md">
+      <div className=" text-white">
+
+        <textarea 
           name="text"
           id=""
           onChange={props.onChange}
@@ -21,7 +22,7 @@ export const TextInput: React.FC<TextInputProps> = (props) => {
             }
           }}
           placeholder="Bir mesaj yazın..."
-          className="w-full bg-[#303030] p-1 rounded-md overflow-hidden outline-none resize-none h-10"
+          className="w-full text-gray-800 dark:text-white bg-[#949494] dark:bg-[#303030] p-1 rounded-md overflow-hidden outline-none resize-none h-10"
         ></textarea>
         <div className="flex justify-end items-center gap-4">
           <button

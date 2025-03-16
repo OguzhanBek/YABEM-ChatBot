@@ -31,17 +31,17 @@ export const Chatlist = () => {
   }, [chats]);
 
   return (
-    <ul>
+    <ul className="">
       {loading && <Loader />}
       {memorizedChatList.map((chat, index) => (
-        <li key={index}>
+        <li key={index} className="">
           {chat.badge && (
-            <span className="text-xs font-semibold">{chat.badge}</span>
+            <span className="text-xs font-semibold ">{chat.badge}</span>
           )}
           {chat.chats.map((chat, index) => (
             <div
               key={index}
-              className="flex flex-row px-2 py-2 items-center rounded-sm hover:bg-white/10 w-full gap-2 cursor-pointer"
+              className="flex flex-row px-2 py-2 items-center rounded-sm hover:bg-gray-600/40  dark:hover:bg-white/10 w-full gap-2 cursor-pointer"
             >
               <Link className="flex flex-1" to={`chat/${chat.roomId}`}>
                 <span className="font-normal text-sm">{chat.roomName}</span>
@@ -53,7 +53,7 @@ export const Chatlist = () => {
                   deleteDialogRef.current?.open();
                 }}
               >
-                <GoKebabHorizontal />
+                <GoKebabHorizontal size={18} className="cursor-pointer hover:opacity-50 rounded-sm text-black dark:text-white"/>
               </button>
             </div>
           ))}
@@ -66,7 +66,7 @@ export const Chatlist = () => {
           </h1>
           <div className="flex flex-row gap-2 mt-4">
             <button
-              className="flex-1 bg-red-500 text-white rounded-md p-2"
+              className="flex-1 bg-red-500 text-white rounded-md p-2 cursor-pointer hover:bg-red-700"
               onClick={async () => {
                 const currentPath = location.pathname.split("/");
                 console.log(currentPath);
@@ -86,7 +86,7 @@ export const Chatlist = () => {
               Sil
             </button>
             <button
-              className="flex-1 bg-gray-500 text-white rounded-md p-2"
+              className="flex-1 bg-gray-500 text-white rounded-md p-2 cursor-pointer hover:bg-gray-700"
               onClick={() => {
                 deleteDialogRef.current?.close();
               }}

@@ -1,10 +1,11 @@
-import React, { useState } from "react";
-import { ModalRef } from "../../template/modal/Modal";
+import React, { useEffect, useState } from "react";
+import Modal, { ModalRef } from "../../template/modal/Modal";
 import { LiaTimesSolid } from "react-icons/lia";
 import { MdAccountCircle, MdDelete } from "react-icons/md";
 import { IoMdSettings } from "react-icons/io";
 import { FaMoon, FaSun } from "react-icons/fa";
 import useStore from "../../../stores";
+import ForgotPasswordModal from "../forgotPasswordModel/ForgotPasswordModel";
 
 type SettingModalProps = {
   modalRef: React.RefObject<ModalRef | null>;
@@ -12,10 +13,25 @@ type SettingModalProps = {
 
 const SettingModel: React.FC<SettingModalProps> = ({ modalRef }) => {
   const { user, removeUser } = useStore();
-
+  const [changePassword, setChangePassword] = useState(false);
   const [selectedSetting, setSelectedSetting] = useState("Hesap Bilgileri");
-  const [deleteColor, _] = useState(true);
-  const [changeTheme, setChangeTheme] = useState(false);
+  const [theme, setTheme] = useState<string>(
+    () => localStorage.getItem("theme") || "light"
+  );
+
+  useEffect(() => {
+    if (theme === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+    localStorage.setItem("theme", theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme((prevTheme) => (prevTheme === "dark" ? "light" : "dark"));
+  };
+
   const settingParts = [
     {
       id: "Hesap Bilgileri",
@@ -35,12 +51,13 @@ const SettingModel: React.FC<SettingModalProps> = ({ modalRef }) => {
   ];
 
   return (
-    <div className="bg-[#303030]  sm:w-[90%] md:w-[60%]  lg:w-[50%] min-h-160 rounded-lg p-2 sm:p-4 ">
+    <div className="bg-[#303030] sm:w-[90%] md:w-[60%] lg:w-[50%] min-h-160 rounded-lg p-2 sm:p-4">
+      {/* Üst Başlık */}
       <div className="flex flex-row gap-2 border-b border-[#808080] pb-2 mb-2 justify-between">
         <h1 className="font-bold text-lg lg:text-2xl">Ayarlar</h1>
         <button
           className="cursor-pointer hover:bg-white/20 items-center justify-center w-8 sm:w-10 h-8 sm:h-10 p-2 rounded-sm group"
-          onClick={() => modalRef?.current?.close()}
+          onClick={() => modalRef.current?.close()}
         >
           <LiaTimesSolid
             size={20}
@@ -62,7 +79,7 @@ const SettingModel: React.FC<SettingModalProps> = ({ modalRef }) => {
               }`}
               onClick={() => setSelectedSetting(item.id)}
             >
-              <div className="flex items-center">
+              <div className="flex items-center  ">
                 {item.icon}
                 <span className="ml-2 sm:text-[16px] md:text-lg">
                   {item.information}
@@ -87,14 +104,19 @@ const SettingModel: React.FC<SettingModalProps> = ({ modalRef }) => {
                   <span>kullanıcı bulunamadı</span>
                 )}
               </div>
-              <div className="flex gap-2">
-                <p className="font-semibold w-20 sm:w-24">Şifre:</p>
-                {user ? (
-                  <span>{user.password}</span>
-                ) : (
-                  <span>kullanıcı bulunamadı</span>
-                )}
-              </div>
+              <p className="font-semibold w-20 sm:w-24"></p>
+              {user ? (
+                <span
+                  className="text-blue-400 underline cursor-pointer hover:text-blue-600"
+                  onClick={() => modalRef.current?.open()} // Modal'ı aç
+                >
+                  Şifremi unuttum.
+                </span>
+              ) : (
+                <span>Kullanıcı bulunamadı</span>
+              )}
+
+  
             </div>
           )}
 
@@ -103,22 +125,21 @@ const SettingModel: React.FC<SettingModalProps> = ({ modalRef }) => {
               <h2 className="sm:text-[14px] lg:text-lg font-bold mb-2">
                 Kişiselleştirme
               </h2>
-              {changeTheme ? (
-                <span className="">aydınlık mod </span>
-              ) : (
-                <span className=""> karanlık mod </span>
-              )}
-
-              <span
-                className="inline-block ml-2 cursor-pointer"
-                onClick={() => setChangeTheme((prev) => !prev)}
+              <div
+                className="flex items-center gap-2 cursor-pointer hover:bg-gray-300/20 w-fit rounded"
+                onClick={toggleTheme}
               >
-                {changeTheme ? (
-                  <FaMoon className="" size={18} />
-                ) : (
-                  <FaSun size={18} />
-                )}
-              </span>
+                <span className="">
+                  {theme === "dark" ? "Karanlık Mod" : "Aydınlık Mod"}
+                </span>
+                <button className="cursor-pointer">
+                  {theme === "dark" ? (
+                    <FaMoon size={18} />
+                  ) : (
+                    <FaSun size={18} />
+                  )}
+                </button>
+              </div>
             </div>
           )}
 
@@ -129,9 +150,7 @@ const SettingModel: React.FC<SettingModalProps> = ({ modalRef }) => {
               </h2>
               <p>Hesabınızı silmek istediğinizden emin misiniz?</p>
               <button
-                className={`${
-                  deleteColor ? "bg-red-600" : "bg-blue-600"
-                } text-white px-3 sm:px-4 py-1 sm:py-2 rounded mt-2 cursor-pointer`}
+                className={`hover:bg-red-800 transition-colors bg-red-600 text-white px-3 sm:px-4 py-1 sm:py-2 rounded mt-2 cursor-pointer`}
                 onClick={() => {
                   removeUser();
                 }}

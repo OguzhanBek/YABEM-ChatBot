@@ -15,6 +15,7 @@ export const Login = () => {
     e.preventDefault();
     setLoginLoader(true); // Loader'ı her durumda aç
 
+    
     if (formType === "login") {
       const existingUser = (await getAllCollectionData("users")).find(
         (user) => user.email === form.email && user.password === generateMD5(form.password)

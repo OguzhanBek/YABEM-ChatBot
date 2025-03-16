@@ -4,6 +4,7 @@ import { createRoom } from "../../utils/firebasehelper";
 import useStore, { Message } from "../../stores";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import AnimatedText from "../../components/molecules/animatedText/AnimatedText";
 
 export const Home = () => {
   const { user, fetchChats } = useStore();
@@ -34,11 +35,11 @@ export const Home = () => {
   };
 
   return (
-    <div className=" relative flex flex-col gap-5  items-center md:justify-center justify-end w-full ">
-      <h1 className="text-2xl font-bold text-center w-full md:w-[40%]">
-        Merhaba, ben MEF Yabem Chat Bot v1.0. Benimle sohbet etmek için bir
-        şeyler sorun
-      </h1>
+    <div className="relative flex flex-col gap-5 items-center md:justify-center justify-end w-full">
+      <AnimatedText
+        text="Merhaba, ben MEF Yabem Chat Bot v1.0. Benimle sohbet etmek için bir şeyler sorun"
+        delay={100} // Her karakter arasındaki gecikme (ms cinsinden)
+      />
       <div className="md:w-[80%] w-full">
         <TextInput
           onChange={(e) => {
