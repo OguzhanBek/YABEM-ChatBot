@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
-import Modal, { ModalRef } from "../../template/modal/Modal";
+import  { ModalRef } from "../../template/modal/Modal";
 import { LiaTimesSolid } from "react-icons/lia";
 import { MdAccountCircle, MdDelete } from "react-icons/md";
 import { IoMdSettings } from "react-icons/io";
 import { FaMoon, FaSun } from "react-icons/fa";
 import useStore from "../../../stores";
-import ForgotPasswordModal from "../forgotPasswordModel/ForgotPasswordModel";
 
 type SettingModalProps = {
   modalRef: React.RefObject<ModalRef | null>;
@@ -13,7 +12,6 @@ type SettingModalProps = {
 
 const SettingModel: React.FC<SettingModalProps> = ({ modalRef }) => {
   const { user, removeUser } = useStore();
-  const [changePassword, setChangePassword] = useState(false);
   const [selectedSetting, setSelectedSetting] = useState("Hesap Bilgileri");
   const [theme, setTheme] = useState<string>(
     () => localStorage.getItem("theme") || "light"

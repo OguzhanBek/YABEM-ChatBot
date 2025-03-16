@@ -1,4 +1,4 @@
-import React, { RefObject } from "react";
+import React from "react";
 import { ModalRef } from "../../template/modal/Modal";
 
 type ForgotPasswordModalProps = {
