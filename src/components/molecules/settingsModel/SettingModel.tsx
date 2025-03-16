@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import  { ModalRef } from "../../template/modal/Modal";
+import { ModalRef } from "../../template/modal/Modal";
 import { LiaTimesSolid } from "react-icons/lia";
 import { MdAccountCircle, MdDelete } from "react-icons/md";
 import { IoMdSettings } from "react-icons/io";
@@ -113,8 +113,6 @@ const SettingModel: React.FC<SettingModalProps> = ({ modalRef }) => {
               ) : (
                 <span>Kullanıcı bulunamadı</span>
               )}
-
-  
             </div>
           )}
 

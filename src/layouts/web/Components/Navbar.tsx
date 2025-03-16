@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { MdKeyboardArrowDown, MdOutlineSpaceDashboard } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import Modal, { ModalRef } from "../../../components/template/modal/Modal";
@@ -7,7 +7,6 @@ import SettingModel from "../../../components/molecules/settingsModel/SettingMod
 import useStore from "../../../stores";
 export const Navbar = () => {
   const modelRef = useRef<ModalRef>(null);
-  const [displaynone, setDisplaynone] = useState("");
   const { logout } = useStore();
   const navigate = useNavigate();
   return (
