@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import useStore, { Chats } from "../../../stores";
+import useStore, { Chats } from "../../../stores/Store";
 import { Loader } from "../../atoms/loader/Loader";
 import { groupChatsByDate } from "../../../utils/helper";
 import { GoKebabHorizontal } from "react-icons/go";

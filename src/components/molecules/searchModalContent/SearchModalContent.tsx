@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { FaRegComments, FaRegEdit } from "react-icons/fa";
 import { LiaTimesSolid } from "react-icons/lia";
 import { ModalRef } from "../../template/modal/Modal";
-import useStore from "../../../stores";
+import useStore from "../../../stores/Store";
 import { Link, useNavigate } from "react-router-dom";
 
 type SearchModalContentProps = {

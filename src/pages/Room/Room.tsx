@@ -2,11 +2,11 @@ import { useParams } from "react-router-dom";
 import { TextInput } from "../../components/atoms/textInput";
 import { MessageList } from "../../components/molecules/messageList";
 import { useEffect, useState } from "react";
-import { Chats, Message } from "../../stores";
+import { Chats, Message } from "../../stores/Store";
 import { getRoomData, pushMessage } from "../../utils/firebasehelper";
 import { Loader } from "../../components/atoms/loader/Loader";
 import { sendService } from "../../utils/helper";
-
+import useStore from "../../stores/Store";
 export const Room = () => {
   const { id } = useParams<{ id: string }>();
 
@@ -34,20 +34,35 @@ export const Room = () => {
     fetchMessages();
   }, [id]);
 
-  const askAI = async (message: string) => {
-    if (!id) return;
-    let response = await sendService(message);
-    const botResponse: Message = {
-      text: response,
-      type: "bot",
-    };
 
-    let pushmessage = await pushMessage(id, botResponse);
-    if (pushmessage) {
-      setMessageList((prev) => [
-        ...prev,
-        { text: response, type: "bot", createAt: Date.now() },
-      ]);
+
+ 
+
+  const askAI = async (message: string) => {
+    const { setAiResponseLoader } = useStore.getState(); // Zustand store'dan fonksiyonu al
+  
+    if (!id) return;
+  
+    setAiResponseLoader(true); // Yükleme başladı
+  
+    try {
+      let response = await sendService(message);
+      const botResponse: Message = {
+        text: response,
+        type: "bot",
+      };
+  
+      let pushmessage = await pushMessage(id, botResponse);
+      if (pushmessage) {
+        setMessageList((prev) => [
+          ...prev,
+          { text: response, type: "bot", createAt: Date.now() },
+        ]);
+      }
+    } catch (error) {
+      console.error("AI'den cevap alınırken hata oluştu:", error);
+    } finally {
+      setAiResponseLoader(false); // Yükleme bitti
     }
   };
 
@@ -65,7 +80,6 @@ export const Room = () => {
         ...prev,
         { text: userText, type: "user", createAt: Date.now() },
       ]);
-      console.log("userText ai isetek atıp cevap alınacak", userText);
       setuserText("");
       await askAI(userText);
     }

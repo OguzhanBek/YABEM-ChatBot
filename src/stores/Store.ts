@@ -28,11 +28,13 @@ export type Chats = {
 interface StoreState {
   user: UserData | null;
   chats: Chats[];
+  aiResponseLoader: boolean; // Yükleme durumu
   updateChats: (value: Chats[]) => void;
   fetchChats: (userId: string) => Promise<Chats[]>;
   updateUser: (value: UserData | null) => void;
   logout: () => void;
   removeUser: () => void;
+  setAiResponseLoader: (value: boolean) => void; // Yükleme durumunu güncelle
 }
 
 let userData: UserData | null = null;
@@ -44,6 +46,7 @@ if (userDataString) {
 const useStore = create<StoreState>((set) => ({
   user: userData,
   chats: [],
+  aiResponseLoader: false, 
   updateChats: (value) => {
     set(() => ({ chats: value }));
   },
@@ -66,10 +69,13 @@ const useStore = create<StoreState>((set) => ({
   },
   removeUser: () => {
     if (userData) {
-      deleteUserById(userData?.id || "");
+      deleteUserById(userData.id );
     }
     localStorage.removeItem("user");
     set(() => ({ user: null }));
+  },
+  setAiResponseLoader: (value) => {
+    set(() => ({ aiResponseLoader: value })); // aiResponseLoader'ı güncelle
   },
 }));
 

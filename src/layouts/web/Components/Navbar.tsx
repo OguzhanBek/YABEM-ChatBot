@@ -3,8 +3,8 @@ import { MdKeyboardArrowDown, MdOutlineSpaceDashboard } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import Modal, { ModalRef } from "../../../components/template/modal/Modal";
 import SettingModel from "../../../components/molecules/settingsModel/SettingModel";
+import useStore from "../../../stores/Store";
 
-import useStore from "../../../stores";
 export const Navbar = () => {
   const modelRef = useRef<ModalRef>(null);
   const { logout } = useStore();

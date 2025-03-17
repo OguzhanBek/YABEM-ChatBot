@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { handleSignUp } from "../../utils/userhelper";
 import { getAllCollectionData } from "../../utils/firebasehelper";
-import useStore, { UserData } from "../../stores";
+import useStore, { UserData } from "../../stores/Store";
 import { toast } from "react-toastify";
 import { generateMD5 } from "../../utils/helper";
 
@@ -11,14 +11,45 @@ export const Login = () => {
   const [loginLoader, setLoginLoader] = useState(false);
   const { updateUser } = useStore();
 
+  const isValidEmail = (email: string): boolean => {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return emailRegex.test(email);
+  };
+
+  // const isValidPassword = (password: string): boolean => {
+  //   // En az 8 karakter, büyük harf, küçük harf, rakam ve özel karakter içermeli
+  //   const passwordRegex =
+  //     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}|:"<>?~`]).{8,}$/;
+  //   return passwordRegex.test(password);
+  // };
+
   const handleForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setLoginLoader(true); // Loader'ı her durumda aç
+    setLoginLoader(true);
 
-    
+    if (isValidEmail(form.email)) {
+      console.log("Geçerli formatta bir e-posta adresi.");
+    } else {
+      console.log("Hatalı e-posta formatı!");
+      alert("lütfen geçerli formatta email giriniz");
+      setLoginLoader(false);
+      return;
+    }
+
+    // if (isValidPassword(form.password)) {
+    //   console.log("Geçerli formatta bir şifre");
+    // } else {
+    //   console.log("Hatalı e-posta formatı!");
+    //   alert("lütfen en az 8 karakter , büyük harf, küçük harf, rekam ve özel karakter kullanın");
+    //   setLoginLoader(false);
+    //   return;
+    // }
+
     if (formType === "login") {
       const existingUser = (await getAllCollectionData("users")).find(
-        (user) => user.email === form.email && user.password === generateMD5(form.password)
+        (user) =>
+          user.email === form.email &&
+          user.password === generateMD5(form.password)
       );
 
       if (existingUser) {

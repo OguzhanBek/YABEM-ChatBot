@@ -12,7 +12,7 @@ import {
 import { db, realtime } from "../firebase";
 import { get, ref, remove, set } from "firebase/database";
 import { generateUUID } from "./helper";
-import { Chats, Message } from "../stores";
+import { Chats, Message } from "../stores/Store";
 
 // Create (Add new document)
 export const setCollectionData = async (table: string, data: object) => {
@@ -162,6 +162,28 @@ export const pushMessage = async (roomId: string, newMessage: Message) => {
     });
     return true;
   } catch (error) {
+    return false;
+  }
+};
+
+export const updateUserById = async (userId: string, data: object) => {
+  try {
+    const q = query(collection(db, "users"), where("id", "==", userId));
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.empty) {
+      console.log("No user found with this ID.");
+      return false;
+    }
+
+    for (const docSnap of querySnapshot.docs) {
+      await updateDoc(docSnap.ref, data);
+      console.log(`Updated user document with Firestore ID: ${docSnap.id}`);
+    }
+
+    return true;
+  } catch (error) {
+    console.error("Error updating user: ", error);
     return false;
   }
 };

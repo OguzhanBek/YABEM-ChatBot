@@ -3,7 +3,7 @@ import { removeRoom } from "./firebasehelper";
 import md5 from "md5";
 
 import { MD5_SALT } from "../../config";
-import { Chats } from "../stores";
+import { Chats } from "../stores/Store";
 
 type GroupedChats = {
   badge: string;

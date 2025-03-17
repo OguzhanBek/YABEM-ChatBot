@@ -31,3 +31,16 @@ body {
     transform: translateX(100%);
   }
 }
+/* App.css */
+@keyframes slideInFromLeft {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.animated-text {
+  animation: slideInFromLeft 1.5s ease-out 1; /* 1 kere çalışacak */
+}

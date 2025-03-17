@@ -1,4 +1,4 @@
-import { Message } from "../../../stores";
+import { Message } from "../../../stores/Store";
 import { MessageCard } from "../../atoms/messageCard";
 
 type MessageListProps = {
