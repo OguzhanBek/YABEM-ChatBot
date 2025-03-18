@@ -1,15 +1,15 @@
 import { useParams } from "react-router-dom";
-import { TextInput } from "../../components/atoms/textInput";
-import { MessageList } from "../../components/molecules/messageList";
+import { TextInput } from "../../components/atoms/textInput/TextInput";
+import { MessageList } from "../../components/molecules/messageList/MessageList";
 import { useEffect, useState } from "react";
 import { Chats, Message } from "../../stores/Store";
 import { getRoomData, pushMessage } from "../../utils/firebasehelper";
 import { Loader } from "../../components/atoms/loader/Loader";
 import { sendService } from "../../utils/helper";
-import useStore from "../../stores/Store";
+import { toast } from "react-toastify";
+
 export const Room = () => {
   const { id } = useParams<{ id: string }>();
-
   const [messageList, setMessageList] = useState<Message[]>([]);
   const [loading, setLoading] = useState(false);
   const [userText, setuserText] = useState("");
@@ -34,35 +34,46 @@ export const Room = () => {
     fetchMessages();
   }, [id]);
 
-
-
- 
-
   const askAI = async (message: string) => {
-    const { setAiResponseLoader } = useStore.getState(); // Zustand store'dan fonksiyonu al
-  
     if (!id) return;
-  
-    setAiResponseLoader(true); // Yükleme başladı
-  
+
+    // "Mesaj yükleniyor" mesajını eklemek içinb var burası id olmadan yapmak uğraştırıyordu
+    const loadingMessage: Message = {
+      text: <Loader />,
+      type: "bot",
+      createdAt: Date.now(),
+      id: "loading",
+    };
+
+    setMessageList((prev) => [...prev, loadingMessage]);
+
     try {
       let response = await sendService(message);
+
       const botResponse: Message = {
         text: response,
         type: "bot",
+        createdAt: Date.now(),
       };
-  
+
       let pushmessage = await pushMessage(id, botResponse);
       if (pushmessage) {
-        setMessageList((prev) => [
-          ...prev,
-          { text: response, type: "bot", createAt: Date.now() },
-        ]);
+        setMessageList(
+          (prev) =>
+            prev
+              .filter((msg) => msg.id !== "loading") 
+              .concat(botResponse) 
+        );
       }
     } catch (error) {
-      console.error("AI'den cevap alınırken hata oluştu:", error);
+      toast.error("AI'den cevap alınırken hata oluştu", {
+        position: "top-center",
+        autoClose: 3000,
+        theme: "colored",
+      });
+      console.error("AI'den cevap alınırken hata oluştu", error);
+      setMessageList((prev) => prev.filter((msg) => msg.id !== "loading"));
     } finally {
-      setAiResponseLoader(false); // Yükleme bitti
     }
   };
 

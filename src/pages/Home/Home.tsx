@@ -1,5 +1,5 @@
 import {  useState } from "react";
-import { TextInput } from "../../components/atoms/textInput";
+import { TextInput } from "../../components/atoms/textInput/TextInput";
 import { createRoom } from "../../utils/firebasehelper";
 import useStore, { Message } from "../../stores/Store";
 import { useNavigate } from "react-router-dom";

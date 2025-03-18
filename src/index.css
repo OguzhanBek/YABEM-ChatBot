@@ -42,5 +42,22 @@ body {
 }
 
 .animated-text {
-  animation: slideInFromLeft 1.5s ease-out 1; /* 1 kere çalışacak */
+  animation: slideInFromLeft 1.5s ease-out 1; 
 }
+
+
+.spinner {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-left-color: #09f;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+

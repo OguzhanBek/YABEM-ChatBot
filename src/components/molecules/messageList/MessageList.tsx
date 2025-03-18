@@ -1,5 +1,5 @@
 import { Message } from "../../../stores/Store";
-import { MessageCard } from "../../atoms/messageCard";
+import { MessageCard } from "../../atoms/messageCard/MessageCard";
 
 type MessageListProps = {
   messages: Message[];

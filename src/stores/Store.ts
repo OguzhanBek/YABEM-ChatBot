@@ -9,14 +9,18 @@ export type UserData = {
 
 export type Message =
   | {
-      text: string;
+      text: string | React.ReactNode; // JSX bileşenleri için
       type: "bot";
+      id?: string;
+      createdAt: number;
     }
   | {
       text: string;
       type: "user";
+      id?: string;
       createAt: number;
     };
+
 export type Chats = {
   roomId: string;
   roomName: string;
@@ -43,13 +47,14 @@ if (userDataString) {
   userData = JSON.parse(userDataString);
 }
 
-const useStore = create<StoreState>((set) => ({
+export const useStore = create<StoreState>((set) => ({
   user: userData,
   chats: [],
-  aiResponseLoader: false, 
+  aiResponseLoader: false,
   updateChats: (value) => {
     set(() => ({ chats: value }));
   },
+
   fetchChats: async (userId: string) => {
     const allChat: Chats[] = await getRoomList();
     const getUserChats = allChat.filter((chat) => chat.userId === userId);
@@ -59,6 +64,7 @@ const useStore = create<StoreState>((set) => ({
     }
     return [];
   },
+
   updateUser: (value) => {
     localStorage.setItem("user", JSON.stringify(value));
     set(() => ({ user: value }));
@@ -69,7 +75,7 @@ const useStore = create<StoreState>((set) => ({
   },
   removeUser: () => {
     if (userData) {
-      deleteUserById(userData.id );
+      deleteUserById(userData.id);
     }
     localStorage.removeItem("user");
     set(() => ({ user: null }));
