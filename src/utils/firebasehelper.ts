@@ -54,7 +54,7 @@ export const getAllCollectionData = async (table: string) => {
     console.error("Error getting documents: ", e);
     return [];
   }
-};
+};// bunu kullanmadım. Gelecekte işe yarayabilir.
 
 // Update (Edit a document by ID)
 export const updateCollectionData = async (
@@ -70,7 +70,7 @@ export const updateCollectionData = async (
     console.error("Error updating document: ", e);
     return false;
   }
-};
+}; // bunu kullanmadım. Gelecekte işe yarayabilir.
 
 // Delete (Remove a document by ID)
 export const deleteCollectionData = async (table: string, id: string) => {
@@ -82,7 +82,7 @@ export const deleteCollectionData = async (table: string, id: string) => {
     console.error("Error deleting document: ", e);
     return false;
   }
-};
+};  // bunu kullanmadım. Gelecekte işe yarayabilir.
 
 // realtime database w/socket
 
@@ -141,6 +141,7 @@ export const createRoom = async (userId: string, message: Message) => {
   set(ref(realtime, `rooms/${uuid}`), data);
   return data;
 };
+
 export const removeRoom = async (roomId: string) => {
   try {
     await remove(ref(realtime, `rooms/${roomId}`));

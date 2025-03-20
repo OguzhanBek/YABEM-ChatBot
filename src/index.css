@@ -13,13 +13,18 @@ body {
 @custom-variant dark (&:where(.dark, .dark *));
 
 .light-effect::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
   height: 2px;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.5),
+    transparent
+  );
   animation: lightMove 3s infinite;
 }
 
@@ -42,9 +47,8 @@ body {
 }
 
 .animated-text {
-  animation: slideInFromLeft 1.5s ease-out 1; 
+  animation: slideInFromLeft 1.5s ease-out 1;
 }
-
 
 .spinner {
   border: 4px solid rgba(0, 0, 0, 0.1);
@@ -60,4 +64,19 @@ body {
     transform: rotate(360deg);
   }
 }
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
 
+.animated-gradient {
+  background-size: 200% 200%;
+  animation: gradientAnimation 3s ease infinite;
+}

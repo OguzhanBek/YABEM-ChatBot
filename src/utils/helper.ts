@@ -28,11 +28,6 @@ export const sendService = async (prompt: string) => {
 
   return req.data.response || "cevap bulamadım";
 };
-export const createMessage = (text: string, type: "bot" | "user") => ({
-  text,
-  type,
-  createdAt: new Date().valueOf(),
-});
 
 export const generateMD5 = (text: string) => {
   const MD5_KEY = MD5_SALT;
@@ -81,7 +76,7 @@ export const groupChatsByDate = (chats: Chats[]): GroupedChats[] => {
           ? "1 hafta önce"
           : badge === "month"
           ? "1 ay önce"
-          : "1 aydan önce",
+          : "1 aydan daha önce",
       chats,
     }));
 };

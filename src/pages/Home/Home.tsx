@@ -1,4 +1,4 @@
-import {  useState } from "react";
+import { useState } from "react";
 import { TextInput } from "../../components/atoms/textInput/TextInput";
 import { createRoom } from "../../utils/firebasehelper";
 import useStore, { Message } from "../../stores/Store";
@@ -35,12 +35,15 @@ export const Home = () => {
 
   return (
     <div className="relative flex flex-col gap-5 items-center md:justify-center justify-end w-full">
-      <h1 className="text-4xl font-bold text-gray-500 animated-text">Mef Yabem ChatBot'a Hoşgeldiniz</h1>
-      <div className="md:w-[80%] w-full">
+      <h1
+        className="text-4xl font-bold bg-gradient-to-r from-blue-200 via-purple-500 to-pink-200
+                 bg-clip-text text-transparent animated-gradient"
+      >
+        Mef Yabem ChatBot'a Hoşgeldiniz
+      </h1>
+      <div className="w-full">
         <TextInput
-          onChange={(e) => {
-            setMessage(e.target.value);
-          }}
+          onChange={(e) => setMessage(e.target.value)}
           onSubmit={createChat}
         />
       </div>

@@ -22,13 +22,13 @@ function DeleteAccountModalRef({ modalRef }: DeleteAccountModalRefProps) {
         </h1>
         <div className="flex flex-row gap-2 mt-4">
           <button
-            className={`flex-1 hover:bg-red-800 transition-colors bg-red-600 text-white px-3 sm:py-2 rounded mt-2  cursor-pointer`}
+            className={`flex-1 hover:bg-red-800 transition-colors bg-red-600 text-white px-3  rounded mt-2  cursor-pointer`}
             onClick={handleDeleteAccount}
           >
             Hesabı Sil
           </button>
           <button
-            className="flex-1 bg-gray-500 transition-colors text-white px-3 sm:px-4 py-1 sm:py-2 rounded mt-2 cursor-pointer hover:bg-gray-700"
+            className="flex-1 bg-gray-500 transition-colors text-white px-4 py-2 rounded mt-2 cursor-pointer hover:bg-gray-700"
             onClick={() => modalRef.current?.close()} // İptal butonuna basınca modalı kapat
           >
             İptal
@@ -38,5 +38,4 @@ function DeleteAccountModalRef({ modalRef }: DeleteAccountModalRefProps) {
     </Modal>
   );
 }
-
 export default DeleteAccountModalRef;

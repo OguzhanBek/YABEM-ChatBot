@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import MefLogo from "../../../assets/Mef_Universitesi_Logo.jpg";
+import useStore from "../../../stores/Store";
 
 type MessageCardProps = {
   text: string | React.ReactNode; // JSX bileşenleri için
@@ -9,13 +10,15 @@ type MessageCardProps = {
 
 export const MessageCard: React.FC<MessageCardProps> = (props) => {
   const targetRef = useRef<HTMLDivElement>(null);
+  const aiResponseLoader = useStore((state) => state.aiResponseLoader);
+
   useEffect(() => {
     targetRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-  }, []); // Boş bağımlılık dizisi → sadece ilk yüklemede çalışır
+  }, []); 
 
   return (
     <div
-      className={`messagecard flex flex-col gap-4 flex-wrap ${
+      className={`messagecard flex flex-col gap-4 flex-wrap   ${
         props.type === "bot" ? "items-start" : "items-end"
       }`}
     >
@@ -27,13 +30,13 @@ export const MessageCard: React.FC<MessageCardProps> = (props) => {
             className="w-8 h-8 rounded-full mr-4  object-cover"
           />
           <div
-            className={`messagecard-text lg:max-w-[70%] md:max-w-[80%] max-w-full text-gray-800 dark:text-white dark:bg-[#303030] p-4 rounded-md break-words whitespace-pre-wrap ${
-              props.isLoading
+            className={`messagecard-text lg:max-w-[70%]md:max-w-[80%] max-w-[500px] text-gray-800 dark:text-white dark:bg-[#303030] p-4 rounded-md break-words whitespace-pre-wrap ${
+              aiResponseLoader
                 ? "flex items-center justify-center"
                 : "bg-[#969696]"
             }`}
           >
-            {props.isLoading ? (
+            {aiResponseLoader ? (
               <div className="spinner"></div> // Yükleme animasyonu
             ) : (
               props.text // Mesaj metni
@@ -42,7 +45,7 @@ export const MessageCard: React.FC<MessageCardProps> = (props) => {
         </div>
       ) : (
         <div
-          className={`messagecard-text lg:max-w-[60%] md:max-w-[80%] max-w-full text-gray-800 dark:text-white dark:bg-[#303030] p-4 rounded-md break-words whitespace-pre-wrap bg-[#c7c7c7]`}
+          className={`messagecard-text   md:max-w-[80%] max-w-[500px] text-gray-800 dark:text-white dark:bg-[#303030] p-4 rounded-md break-words whitespace-pre-wrap bg-[#c7c7c7]`}
         >
           {props.text}
         </div>

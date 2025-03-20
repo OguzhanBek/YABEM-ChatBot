@@ -12,7 +12,6 @@ type SettingModalProps = {
   modalRef: React.RefObject<ModalRef | null>;
 };
 
-
 const SettingModel: React.FC<SettingModalProps> = ({ modalRef }) => {
   const { user } = useStore();
   const [selectedSetting, setSelectedSetting] = useState("Hesap Bilgileri");
@@ -64,10 +63,10 @@ const SettingModel: React.FC<SettingModalProps> = ({ modalRef }) => {
 
   return (
     <>
-      <div className="bg-[#303030] sm:w-[90%] md:w-[60%] lg:w-[50%] min-h-160 rounded-lg p-2 sm:p-4">
+      <div className="bg-[#303030] w-[90%]  md:w-[80%] lg:w-[70%] xl:w-[60%] min-h-160 rounded-lg p-2 sm:p-4">
         {/* Üst Başlık */}
         <div className="flex flex-row gap-2 border-b border-[#808080] pb-2 mb-2 justify-between">
-          <h1 className="font-bold text-lg lg:text-2xl">Ayarlar</h1>
+          <h1 className="font-bold text-lg lg:text-2xl sm:text-xl">Ayarlar</h1>
           <button
             className="cursor-pointer hover:bg-white/20 items-center justify-center w-8 sm:w-10 h-8 sm:h-10 p-2 rounded-sm group"
             onClick={() => modalRef.current?.close()}
@@ -79,7 +78,7 @@ const SettingModel: React.FC<SettingModalProps> = ({ modalRef }) => {
           </button>
         </div>
 
-        <div className="flex gap-4 sm:gap-10 pt-5">
+        <div className="flex gap-4 sm:gap-5 md:gap-10 pt-5">
           {/* Sol Menü */}
           <div className="content-left flex-1 flex flex-col">
             {settingParts.map((item) => (
@@ -94,7 +93,7 @@ const SettingModel: React.FC<SettingModalProps> = ({ modalRef }) => {
               >
                 <div className="flex items-center">
                   {item.icon}
-                  <span className="ml-2 sm:text-[16px] md:text-lg">
+                  <span className="ml-2 text-[15px] sm:text-[15px] md:text-lg">
                     {item.information}
                   </span>
                 </div>
@@ -109,8 +108,8 @@ const SettingModel: React.FC<SettingModalProps> = ({ modalRef }) => {
                 <h2 className="sm:text-[16px] lg:text-lg font-bold mb-2">
                   Hesap Bilgileri
                 </h2>
-                <div className="flex gap-2">
-                  <p className="font-semibold w-20 sm:w-24">Email:</p>
+                <div className="flex gap-2 md:text-lg  text-[13px]">
+                  <p className="font-semibold w-13 md:w-16">Email:</p>
                   {user ? (
                     <span>{user?.mail}</span>
                   ) : (
@@ -120,7 +119,7 @@ const SettingModel: React.FC<SettingModalProps> = ({ modalRef }) => {
                 <p className="font-semibold w-20 sm:w-24"></p>
                 {user ? (
                   <span
-                    className="text-blue-400 underline cursor-pointer hover:text-blue-600"
+                    className="text-blue-400 underline cursor-pointer  md:text-lg  text-[13px] hover:text-blue-600"
                     onClick={() => changePasswordModalRef.current?.open()} // Şifre değiştirme modalını aç
                   >
                     Şifremi Değiştir.
@@ -140,7 +139,7 @@ const SettingModel: React.FC<SettingModalProps> = ({ modalRef }) => {
                   className="flex items-center gap-2 cursor-pointer hover:bg-gray-300/20 w-fit rounded"
                   onClick={toggleTheme}
                 >
-                  <span className="">
+                  <span className=" md:text-lg  text-[13px]">
                     {theme === "dark" ? "Karanlık Mod" : "Aydınlık Mod"}
                   </span>
                   <button className="cursor-pointer">
@@ -159,9 +158,9 @@ const SettingModel: React.FC<SettingModalProps> = ({ modalRef }) => {
                 <h2 className="text-lg sm:text-xl font-bold text-red-500 mb-2">
                   Hesabı Sil
                 </h2>
-                <p>Hesabınızı silmek istediğinizden emin misiniz?</p>
+                <p className=" md:text-lg  text-[13px]">Hesabınızı silmek istediğinizden emin misiniz?</p>
                 <button
-                  className={`hover:bg-red-800 transition-colors bg-red-600 text-white px-3 sm:px-4 py-1 sm:py-2 rounded mt-2 cursor-pointer`}
+                  className={`hover:bg-red-800 transition-colors bg-red-600 text-white px-3 sm:px-4 py-1 sm:py-2 rounded mt-2 cursor-pointer  md:text-md  text-[16px]`}
                   onClick={() => deleteAccountModalRef.current?.open()} // Modalı aç
                 >
                   Hesabı Sil

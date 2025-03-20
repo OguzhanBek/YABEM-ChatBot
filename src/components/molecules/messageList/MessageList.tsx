@@ -7,7 +7,7 @@ type MessageListProps = {
 
 export const MessageList: React.FC<MessageListProps> = (props) => {
   return (
-    <div className="md:w-[60%] w-full mx-auto gap-4 flex flex-col max-w-400  ">
+    <div className="w-full  md:w-[90%] lg:w-[70%] xl:w-[60%] mx-auto gap-4 flex flex-col   break-words" >
       {props.messages.map((message, index) => (
         <MessageCard key={index} text={message.text} type={message.type} />
       ))}

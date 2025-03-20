@@ -17,7 +17,7 @@ const SearchModalContent: React.FC<SearchModalContentProps> = ({
   const [filterKey, setFilterKey] = useState("");
 
   return (
-    <div className="bg-[#303030] w-[30%]  rounded-lg p-4">
+    <div className="bg-[#303030] w-[80%] md:w-[60%] lg:w-[40%] rounded-lg p-4">
       <div className="flex flex-row gap-2 border-b border-[#808080] pb-2 mb-2">
         <input
           type="text"
