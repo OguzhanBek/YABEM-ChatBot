@@ -17,7 +17,7 @@ export const Login = () => {
   };
 
   // const isValidPassword = (password: string): boolean => {
-  //   // En az 8 karakter, büyük harf, küçük harf, rakam ve özel karakter içermeli
+  //  En az 8 karakter, büyük harf, küçük harf, rakam ve özel karakter içermeli
   //   const passwordRegex =
   //     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}|:"<>?~`]).{8,}$/;
   //   return passwordRegex.test(password);
@@ -109,14 +109,10 @@ export const Login = () => {
   };
 
   return (
-    <div
-      className="md:w-[60%] lg:w-[20%] md:h-[32rem] w-full h-full relative flex flex-col gap-5  bg-[#171717] rounded
-    p-5
-    "
-    >
+    <div className="sm:w-[60%] md:w-[50%] lg:w-[32%] xl:w-[27%] sm:h-[32rem] w-full h-full relative flex flex-col gap-5 bg-[#171717] rounded p-5 shadow-2xl shadow-[#7289DA]/50 ">
       <div>
         <h1 className="text-2xl text-white text-center">MEF YABEM</h1>
-        <h1 className="text-3xl text-white text-center">CHAT APP</h1>
+        <h1 className="text-3xl text-white text-center">CHAT BOT</h1>
       </div>
       <div className="flex flex-col gap-3 p-5 items-center">
         <div className="flex flex-row gap-3 w-full">
