@@ -40,7 +40,7 @@ export const TextInput: React.FC<TextInputProps> = (props) => {
   }, [isFocused]);
 
   return (
-    <div className="sm:w-full md:w-[80%] lg:w-[70%] xl:w-[60%] w-full mx-auto bg-[#949494] dark:bg-[#303030] p-4 rounded-md">
+    <div className="sm:w-full md:w-[80%] lg:w-[70%] xl:w-[60%] w-full mx-auto bg-[#00000] dark:bg-[#303030] p-4 rounded-md shadow-md ">
       <div className="text-white">
         <textarea
           name="text"
@@ -59,7 +59,7 @@ export const TextInput: React.FC<TextInputProps> = (props) => {
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
           placeholder = {placeholder} // Dinamik placeholder
-          className={`w-full text-gray-800 dark:text-white bg-[#949494] dark:bg-[#303030] p-1 rounded-md overflow-hidden outline-none resize-none h-10 transition-all duration-300 ${
+          className={`w-full text-gray-800 dark:text-white bg-[#00000] dark:bg-[#303030] p-1 rounded-md overflow-hidden outline-none resize-none h-10 transition-all duration-300 ${
             fade ? "opacity-0" : "opacity-100 transition-opacity duration-500"
           }`}
         ></textarea>

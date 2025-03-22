@@ -13,20 +13,11 @@ type SettingModalProps = {
 };
 
 const SettingModel: React.FC<SettingModalProps> = ({ modalRef }) => {
-  const { user } = useStore();
+  const { user, theme, toggleTheme } = useStore();
   const [selectedSetting, setSelectedSetting] = useState("Hesap Bilgileri");
 
   const changePasswordModalRef = useRef<ModalRef | null>(null);
   const deleteAccountModalRef = useRef<ModalRef | null>(null);
-
-  const [theme, setTheme] = useState<string>("light"); // Başlangıçta 'light' olarak ayarla
-
-  useEffect(() => {
-    const storedTheme = localStorage.getItem("theme");
-    if (storedTheme) {
-      setTheme(storedTheme);
-    }
-  }, []);
 
   useEffect(() => {
     if (theme) {
@@ -34,14 +25,6 @@ const SettingModel: React.FC<SettingModalProps> = ({ modalRef }) => {
       localStorage.setItem("theme", theme);
     }
   }, [theme]);
-
-  // Tema değiştirme fonksiyonu
-  const toggleTheme = () => {
-    const newTheme = theme === "dark" ? "light" : "dark";
-    setTheme(newTheme);
-    document.documentElement.classList.toggle("dark", newTheme === "dark");
-    localStorage.setItem("theme", newTheme);
-  };
 
   const settingParts = [
     {
@@ -137,7 +120,7 @@ const SettingModel: React.FC<SettingModalProps> = ({ modalRef }) => {
                 </h2>
                 <div
                   className="flex items-center gap-2 cursor-pointer hover:bg-gray-300/20 w-fit rounded"
-                  onClick={toggleTheme}
+                  onClick={() => toggleTheme(theme === "dark" ? "light" : "dark")}
                 >
                   <span className=" md:text-lg  text-[13px]">
                     {theme === "dark" ? "Karanlık Mod" : "Aydınlık Mod"}
@@ -158,7 +141,9 @@ const SettingModel: React.FC<SettingModalProps> = ({ modalRef }) => {
                 <h2 className="text-lg sm:text-xl font-bold text-red-500 mb-2">
                   Hesabı Sil
                 </h2>
-                <p className=" md:text-lg  text-[13px]">Hesabınızı silmek istediğinizden emin misiniz?</p>
+                <p className=" md:text-lg  text-[13px]">
+                  Hesabınızı silmek istediğinizden emin misiniz?
+                </p>
                 <button
                   className={`hover:bg-red-800 transition-colors bg-red-600 text-white px-3 sm:px-4 py-1 sm:py-2 rounded mt-2 cursor-pointer  md:text-md  text-[16px]`}
                   onClick={() => deleteAccountModalRef.current?.open()} // Modalı aç

@@ -54,7 +54,7 @@ export const getAllCollectionData = async (table: string) => {
     console.error("Error getting documents: ", e);
     return [];
   }
-};// bunu kullanmadım. Gelecekte işe yarayabilir.
+}; // bunu kullanmadım. Gelecekte işe yarayabilir.
 
 // Update (Edit a document by ID)
 export const updateCollectionData = async (
@@ -82,7 +82,7 @@ export const deleteCollectionData = async (table: string, id: string) => {
     console.error("Error deleting document: ", e);
     return false;
   }
-};  // bunu kullanmadım. Gelecekte işe yarayabilir.
+}; // bunu kullanmadım. Gelecekte işe yarayabilir.
 
 // realtime database w/socket
 
@@ -195,16 +195,13 @@ export const deleteUserById = async (userId: string) => {
     const querySnapshot = await getDocs(q);
 
     if (querySnapshot.empty) {
-      console.log("No user found with this ID.");
+      console.log("Belirtilen ID ile eşleşen bir kullanıcı bulunamadı.");
       return false;
     }
 
     for (const docSnap of querySnapshot.docs) {
       await deleteDoc(docSnap.ref);
-      console.log(`Deleted user document with Firestore ID: ${docSnap.id}`);
     }
-
-    return true;
   } catch (error) {
     console.error("Error deleting user: ", error);
     return false;

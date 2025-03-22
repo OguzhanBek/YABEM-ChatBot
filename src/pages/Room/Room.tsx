@@ -9,12 +9,13 @@ import { sendService } from "../../utils/helper";
 import { toast } from "react-toastify";
 
 export const Room = () => {
+  const { aiResponseLoader } = useStore();
   const { id } = useParams<{ id: string }>();
   const [messageList, setMessageList] = useState<Message[]>([]);
   const [loading, setLoading] = useState(false);
   const [userText, setuserText] = useState("");
+
   const setAiResponseLoader = useStore((state) => state.setAiResponseLoader);
-  
 
   const fetchMessages = async () => {
     setLoading(true);
@@ -25,6 +26,10 @@ export const Room = () => {
     setTimeout(() => {
       setMessageList(messages.messages);
       setLoading(false);
+      let lastMessage = messages.messages[messages.messages.length - 1];
+      if (lastMessage.type === "user") {
+        askAI(lastMessage.text as string);
+      }
     }, 1000);
   };
 
@@ -35,18 +40,7 @@ export const Room = () => {
   const askAI = async (message: string) => {
     if (!id) return;
 
-
     setAiResponseLoader(true);
-
-    const loadingMessage: Message = {
-      text: <Loader />,
-      type: "bot",
-      createdAt: Date.now(),
-      id: "loading",
-    };
-
-    setMessageList((prev) => [...prev, loadingMessage]);
-
     try {
       let response = await sendService(message);
 
@@ -99,7 +93,7 @@ export const Room = () => {
     <div className="w-full relative flex flex-col gap-5  dark:bg-[#212121] ">
       <div className="h-[calc(100vh-15rem)] shrink-0 flex-col p-4 flex gap-4 overflow-hidden overflow-y-auto  text-white ">
         {loading && <Loader />}
-        <MessageList messages={messageList} />
+        <MessageList messages={messageList} isLoader={aiResponseLoader} />
       </div>
       <TextInput
         onChange={(e) => {

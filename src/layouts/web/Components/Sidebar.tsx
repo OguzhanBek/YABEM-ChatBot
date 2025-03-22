@@ -13,7 +13,7 @@ export const Sidebar = () => {
 
   return (
     <div
-      className="dark:bg-[#171717]  dark:text-white text-black bg-[#dad6d6] h-screen flex flex-col w-[250px] md:relative absolute  gap-4 z-10 md:-left-0 -left-[300px] transition-all border-b border-[#2c2f33]"
+      className="dark:bg-[#171717]  dark:text-white text-black bg-[#F9F9F9] h-screen flex flex-col w-[250px] md:relative absolute  gap-4 z-10 md:-left-0 -left-[300px] transition-all border-b border-[#2c2f33]"
       id="menu"
     >
       <div className="flex flex-col">

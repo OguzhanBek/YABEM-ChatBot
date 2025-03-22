@@ -3,9 +3,8 @@ import MefLogo from "../../../assets/Mef_Universitesi_Logo.jpg";
 import useStore from "../../../stores/Store";
 
 type MessageCardProps = {
-  text: string | React.ReactNode; // JSX bileşenleri için
-  type: "user" | "bot";
-  isLoading?: boolean;
+  text: string // JSX bileşenleri için
+  type: "user" | "bot"
 };
 
 export const MessageCard: React.FC<MessageCardProps> = (props) => {

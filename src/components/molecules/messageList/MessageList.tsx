@@ -3,6 +3,7 @@ import { MessageCard } from "../../atoms/messageCard/MessageCard";
 
 type MessageListProps = {
   messages: Message[];
+  isLoader: boolean;
 };
 
 export const MessageList: React.FC<MessageListProps> = (props) => {
@@ -11,6 +12,7 @@ export const MessageList: React.FC<MessageListProps> = (props) => {
       {props.messages.map((message, index) => (
         <MessageCard key={index} text={message.text} type={message.type} />
       ))}
+      {props.isLoader && <MessageCard text="AI yanıtı bekleniyor" type="bot" />}
     </div>
   );
 };
