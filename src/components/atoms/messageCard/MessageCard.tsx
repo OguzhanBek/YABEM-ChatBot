@@ -35,11 +35,7 @@ export const MessageCard: React.FC<MessageCardProps> = (props) => {
                 : "bg-[#969696]"
             }`}
           >
-            {aiResponseLoader ? (
-              <div className="spinner"></div> // Yükleme animasyonu
-            ) : (
-              props.text // Mesaj metni
-            )}
+            { props.text}
           </div>
         </div>
       ) : (
