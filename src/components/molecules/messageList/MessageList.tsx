@@ -1,4 +1,5 @@
 import { Message } from "../../../stores/Store";
+import { Loader } from "../../atoms/loader/Loader";
 import { MessageCard } from "../../atoms/messageCard/MessageCard";
 
 type MessageListProps = {
@@ -12,7 +13,7 @@ export const MessageList: React.FC<MessageListProps> = (props) => {
       {props.messages.map((message, index) => (
         <MessageCard key={index} text={message.text} type={message.type} />
       ))}
-      {props.isLoader && <MessageCard text="AI yanıtı bekleniyor" type="bot" />}
+      {props.isLoader && <MessageCard text= {<Loader/>}  type="bot" />}
     </div>
   );
 };

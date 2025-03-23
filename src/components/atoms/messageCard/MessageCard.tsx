@@ -3,7 +3,7 @@ import MefLogo from "../../../assets/Mef_Universitesi_Logo.jpg";
 import useStore from "../../../stores/Store";
 
 type MessageCardProps = {
-  text: string // JSX bileşenleri için
+  text: string | React.ReactNode // JSX bileşenleri için
   type: "user" | "bot"
 };
 
