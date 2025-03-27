@@ -2,7 +2,7 @@ import axios from "axios";
 import { removeRoom } from "./firebasehelper";
 import md5 from "md5";
 
-import { MD5_SALT } from "../../config";
+import { API_URL, MD5_SALT } from "../../config";
 import { Chats } from "../stores/Store";
 
 type GroupedChats = {
@@ -22,7 +22,7 @@ export const handleDeleteRoom = async (roomId: string) => {
   await removeRoom(roomId);
 };
 export const sendService = async (prompt: string) => {
-  const req = await axios.post("http://localhost:5000/predict", {
+  const req = await axios.post(`${API_URL}/predict`, {
     prompt,
   });
 
