@@ -126,12 +126,10 @@ export const getRoomData = async (roomId: string) => {
 };
 
 export const createRoom = async (userId: string, message: Message) => {
-  let roomlist = await getRoomList();
+
   const uuid = await generateUUID(18);
   let data = {
-    roomName: `Yeni Oda bombo #${
-      roomlist.filter((u) => u.userId === userId).length + 1 || 1
-    }`,
+    roomName: message.text,
     roomId: uuid,
     createAt: new Date().valueOf(),
     userId: userId,

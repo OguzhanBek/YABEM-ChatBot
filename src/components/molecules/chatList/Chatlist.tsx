@@ -43,7 +43,9 @@ export const Chatlist = () => {
               key={index}
               className="flex flex-row px-2 py-2 items-center rounded-sm hover:bg-gray-600/40  dark:hover:bg-white/10 w-full gap-2 cursor-pointer"
             >
+              
               <Link className="flex flex-1" to={`chat/${chat.roomId}`}>
+              
                 <span className="font-normal text-sm">{chat.roomName}</span>
               </Link>
               <button
