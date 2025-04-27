@@ -1,9 +1,9 @@
-import axios from "axios";
 import { removeRoom } from "./firebasehelper";
 import md5 from "md5";
 
 import { API_URL, MD5_SALT } from "../../config";
 import { Chats } from "../stores/Store";
+import { toast } from "react-toastify";
 
 type GroupedChats = {
   badge: string;
@@ -18,15 +18,94 @@ export const generateUUID = (length = 18) => {
   }
   return result;
 };
+export const generateOTP = (length = 6) => {
+  const perms = "0123456789";
+  let result = "";
+  for (let index = 0; index < length; index++) {
+    result += perms.charAt(Math.floor(Math.random() * perms.length));
+  }
+  return result;
+};
 export const handleDeleteRoom = async (roomId: string) => {
   await removeRoom(roomId);
 };
-export const sendService = async (prompt: string) => {
-  const req = await axios.post(`${API_URL}/predict`, {
-    prompt,
+export const sendService = async (
+  message: string,
+  onTokenReceived: (token: string) => void,
+  onFinished?: (fullText: string) => void
+) => {
+  const response = await fetch(`${API_URL}predict?stream=true` , {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ prompt: message }),
   });
+// -------------------------------------BURA SONRADAN EKLENDİ HATA SORUNUNU ÇÖZMEYEBİLİR ------------------------------------------------------
 
-  return req.data.response || "cevap bulamadım";
+  if (!response.body) throw new Error("Stream başlatılamadı.");
+  if (!response.ok) {  // Burası sonradan eklendi. Hataların kaynağı burası olursa dikkat et
+    let errorMsg = `Sunucu hatası (${response.status})`; // Varsayılan mesaj
+    try {
+      // Sunucudan gelen JSON formatındaki hatayı almaya çalış
+      const errorData = await response.json();
+      errorMsg =
+        errorData.response ||
+        errorData.message ||
+        `${response.status} ${response.statusText}`;
+    } catch (parseError) {
+      // Yanıt JSON değilse veya parse edilemiyorsa status text kullan
+      errorMsg = `${response.status} ${response.statusText}`;
+    }
+    console.error("Sunucu yanıtı başarısız:", errorMsg, response);
+    toast.error(`İstek başarısız: ${errorMsg}`); // Hata mesajını toast ile göster
+    if (onFinished) onFinished(""); // İşlemi boş yanıtla bitir
+    return; // Hata durumunda fonksiyondan çık
+  }
+
+// -----------------------------------------------------------------------------------------------------------------------------------------------------------------
+ 
+const reader = response.body.getReader();
+  const decoder = new TextDecoder("utf-8");
+  
+  let partial = "";
+  let fullResponse = "";
+
+  while (true) {
+    const { value, done } = await reader.read();
+    if (done) break;
+
+    partial += decoder.decode(value, { stream: true });
+
+    const lines = partial.split("\n");
+
+    for (let i = 0; i < lines.length - 1; i++) {
+      const line = lines[i].trim();
+
+      if (line.startsWith("data: ")) {
+        const jsonStr = line.slice(6);
+        if (jsonStr === "[DONE]") {
+          if (onFinished) onFinished(fullResponse);
+          return;
+        }
+
+        try {
+          const parsed = JSON.parse(jsonStr);
+          if (parsed.token) {
+            onTokenReceived(parsed.token);
+            fullResponse += parsed.token;
+          }
+        } catch (e) {
+          console.warn("Geçersiz JSON:", jsonStr);
+        }
+      }
+    }
+
+    partial = lines[lines.length - 1];
+  }
+
+  // Güvenlik için fallback
+  if (onFinished) onFinished(fullResponse);
 };
 
 export const generateMD5 = (text: string) => {

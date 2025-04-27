@@ -1,15 +1,18 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TextInput } from "../../components/atoms/textInput/TextInput";
 import { createRoom } from "../../utils/firebasehelper";
 import useStore, { Message } from "../../stores/Store";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import SpeechRecognition, {
+  useSpeechRecognition,
+} from "react-speech-recognition";
 
 export const Home = () => {
   const { user, fetchChats } = useStore();
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
-
+  const { transcript, listening } = useSpeechRecognition();
   const createChat = async () => {
     if (!message) return;
     if (!user) return;
@@ -33,6 +36,11 @@ export const Home = () => {
     });
   };
 
+  useEffect(() => {
+    if (transcript === "") return;
+    setMessage(() => ( transcript));
+  }, [transcript]);
+
   return (
     <div className="relative flex flex-col gap-5 items-center md:justify-center justify-end w-full">
       <h1
@@ -43,8 +51,12 @@ export const Home = () => {
       </h1>
       <div className="w-full">
         <TextInput
+          value={message}
           onChange={(e) => setMessage(e.target.value)}
           onSubmit={createChat}
+          startSpeech={() => SpeechRecognition.startListening()}
+          stopSpeech={() => SpeechRecognition.stopListening()}
+          listening={listening}
         />
       </div>
     </div>

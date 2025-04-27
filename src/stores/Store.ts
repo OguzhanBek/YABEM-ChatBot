@@ -5,11 +5,13 @@ export type UserData = {
   mail: string;
   password: string;
   id: string;
+  otp?: string;  
+  active?: boolean;
 };
 
 export type Message =
   | {
-      text: string; // JSX bileşenleri için
+      text: string; 
       type: "bot";
       id?: string;
       createdAt: number;
@@ -91,5 +93,4 @@ export const useStore = create<StoreState>((set) => ({
     set(() => ({ aiResponseLoader: value })); // aiResponseLoader'ı güncelle
   },
 }));
-
 export default useStore;

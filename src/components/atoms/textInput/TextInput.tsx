@@ -1,11 +1,18 @@
 import { IoArrowUp } from "react-icons/io5";
 import { useState, useEffect } from "react";
 import useStore from "../../../stores/Store";
+import { FaMicrophone } from "react-icons/fa";
+import { CiMicrophoneOff } from "react-icons/ci";
+
+import React from "react";
 
 type TextInputProps = {
   onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   value?: string;
   onSubmit?: () => void;
+  startSpeech: () => void;
+  stopSpeech: () => void;
+  listening: boolean;
 };
 
 export const TextInput: React.FC<TextInputProps> = (props) => {
@@ -13,7 +20,6 @@ export const TextInput: React.FC<TextInputProps> = (props) => {
 
   const [placeholder, setPlaceholder] = useState("Bir mesaj yazın...");
   const [fade, setFade] = useState(false);
-  const [isFocused, setIsFocused] = useState(false);
 
   const placeholderMessages = [
     "MEF YABEM nedir ?",
@@ -23,7 +29,8 @@ export const TextInput: React.FC<TextInputProps> = (props) => {
   ];
 
   useEffect(() => {
-    if (isFocused) return;
+    let textVal = props.value?.length ? props.value?.length : 0;
+    if (textVal > 0) return;
 
     let index = 0;
     const interval = setInterval(() => {
@@ -37,7 +44,8 @@ export const TextInput: React.FC<TextInputProps> = (props) => {
     }, 2000);
 
     return () => clearInterval(interval);
-  }, [isFocused]);
+  }, [props.value]);
+
 
   return (
     <div className="sm:w-full md:w-[80%] lg:w-[70%] xl:w-[60%] w-full mx-auto bg-[#00000] dark:bg-[#303030] p-4 rounded-md shadow-md ">
@@ -56,14 +64,44 @@ export const TextInput: React.FC<TextInputProps> = (props) => {
               props.onSubmit && props.onSubmit();
             }
           }}
-          onFocus={() => setIsFocused(true)}
-          onBlur={() => setIsFocused(false)}
-          placeholder = {placeholder} // Dinamik placeholder
+          
+          placeholder={placeholder} // Dinamik placeholder
           className={`w-full text-gray-800 dark:text-white bg-[#00000] dark:bg-[#303030] p-1 rounded-md overflow-hidden outline-none resize-none h-10 transition-all duration-300 ${
             fade ? "opacity-0" : "opacity-100 transition-opacity duration-500"
           }`}
         ></textarea>
+
+        {/* Dinelme Butonları*/}
+       
         <div className="flex justify-end items-center gap-4">
+          {props.listening ? (
+            <button
+              onClick={() => {
+                props.stopSpeech();
+              }}
+              className={`bg-white p-2 rounded-full w-10 h-10 flex items-center justify-center transition-all duration-300 opacity-50 cursor-pointer hover:bg-[#79797c] 
+              `
+           }
+           
+            >
+              <CiMicrophoneOff color="black" size={20} />
+            </button>
+            
+          ) : (
+            <button
+              onClick={() => {
+                props.startSpeech();
+              }}
+              className={`bg-white p-2 rounded-full w-10 h-10 flex items-center justify-center transition-all duration-300 hover:bg-[#79797c] cursor-pointer
+              
+         `}
+            >
+              <FaMicrophone color="black" size={20} />
+            </button>
+          )}
+
+          {/* Dinelme Butonları yukarıda   Aşağısı submit butonu. */}
+
           <button
             onClick={props.onSubmit}
             disabled={aiResponseLoader}
@@ -71,6 +109,10 @@ export const TextInput: React.FC<TextInputProps> = (props) => {
               aiResponseLoader
                 ? "opacity-50 cursor-not-allowed"
                 : "cursor-pointer"
+            } ${
+              props.value?.length == 0
+                ? "" 
+                : "hover:bg-[#79797c]"
             }`}
           >
             <IoArrowUp color="black" size={20} />

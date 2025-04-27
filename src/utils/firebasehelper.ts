@@ -11,8 +11,9 @@ import {
 } from "firebase/firestore";
 import { db, realtime } from "../firebase";
 import { get, ref, remove, set } from "firebase/database";
-import { generateUUID } from "./helper";
-import { Chats, Message } from "../stores/Store";
+import { generateMD5, generateUUID } from "./helper";
+import { Chats, Message, UserData } from "../stores/Store";
+import { toast } from "react-toastify";
 
 // Create (Add new document)
 export const setCollectionData = async (table: string, data: object) => {
@@ -126,11 +127,11 @@ export const getRoomData = async (roomId: string) => {
 };
 
 export const createRoom = async (userId: string, message: Message) => {
-
   const uuid = await generateUUID(18);
   let data = {
     roomName: message.text,
     roomId: uuid,
+   
     createAt: new Date().valueOf(),
     userId: userId,
     createDate: new Date().valueOf(),
@@ -178,6 +179,11 @@ export const updateUserById = async (userId: string, data: object) => {
     for (const docSnap of querySnapshot.docs) {
       await updateDoc(docSnap.ref, data);
       console.log(`Updated user document with Firestore ID: ${docSnap.id}`);
+          toast.success("Kayıt Başarılı", {
+                position: "top-center",
+                autoClose: 3000,
+                theme: "colored",
+              });
     }
 
     return true;
@@ -203,5 +209,34 @@ export const deleteUserById = async (userId: string) => {
   } catch (error) {
     console.error("Error deleting user: ", error);
     return false;
+  }
+};
+
+export const checkUser = async (email: string, pw: string) => {
+  try {
+    const hashedPw = generateMD5(pw);
+    
+    // Sorguyu oluştur
+    const q = query(
+      collection(db, "users"),
+      where("email", "==", email),
+      where("password", "==", hashedPw)
+    );
+    
+    // Sorguyu çalıştır
+    const querySnapshot = await getDocs(q);
+    
+    // Eşleşen kullanıcı var mı kontrol et
+    if (!querySnapshot.empty) {
+      const userDoc = querySnapshot.docs[0];
+      const userData = userDoc.data() as UserData;
+      return userData;
+    }
+    
+    return null; // Kullanıcı bulunamadı
+    
+  } catch (error) {
+    console.error("Sorgu hatası:", error);
+    throw error;
   }
 };

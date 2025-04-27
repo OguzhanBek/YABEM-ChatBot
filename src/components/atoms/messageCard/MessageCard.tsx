@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import MefLogo from "../../../assets/Mef_Universitesi_Logo.jpg";
 import useStore from "../../../stores/Store";
+import { Loader } from "../loader/Loader";
 
 type MessageCardProps = {
   text: string | React.ReactNode // JSX bileşenleri için
@@ -35,7 +36,7 @@ export const MessageCard: React.FC<MessageCardProps> = (props) => {
                 : "bg-[#969696]"
             }`}
           >
-            { props.text}
+            { props.text == "" ? <Loader/> : props.text}
           </div>
         </div>
       ) : (
