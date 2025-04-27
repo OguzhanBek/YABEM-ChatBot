@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { ModalRef } from "../../template/modal/Modal";
 
 type Props = {
+  modalRef: React.RefObject<ModalRef | null>;
   onClose: () => void;
   callback: (otp: string) => void
 };

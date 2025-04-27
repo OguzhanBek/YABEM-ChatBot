@@ -13,7 +13,7 @@ import Modal, { ModalRef } from "../../components/template/modal/Modal";
 import OtpSentModal from "../../components/molecules/OtpSentModal/OtpSentModal";
 
 type OTPSentModalProps = {
-  otpModalRef: React.RefObject<ModalRef | null>;
+  otpModalRef?: React.RefObject<ModalRef | null>;
 };
 
 export const Login: React.FC<OTPSentModalProps> = () => {
@@ -216,6 +216,7 @@ export const Login: React.FC<OTPSentModalProps> = () => {
 
       <Modal ref={otpModalRef}>
         <OtpSentModal
+          modalRef= {otpModalRef}
           onClose={() => otpModalRef.current?.close()}
           callback={(otp) => {
             checkUser(form.email, form.password).then((response) => {
