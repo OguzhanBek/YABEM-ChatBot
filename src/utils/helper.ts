@@ -34,7 +34,7 @@ export const sendService = async (
   onTokenReceived: (token: string) => void,
   onFinished?: (fullText: string) => void
 ) => {
-  const response = await fetch(`${API_URL}predict?stream=true` , {
+  const response = await fetch(`${API_URL}/predict?stream=true` , {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
