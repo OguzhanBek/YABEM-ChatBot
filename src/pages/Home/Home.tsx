@@ -9,9 +9,10 @@ import SpeechRecognition, {
 } from "react-speech-recognition";
 
 export const Home = () => {
-  const { user, fetchChats } = useStore();
+  const { user, fetchChats, selectedModel } = useStore();
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
+
   const { transcript, listening } = useSpeechRecognition();
   const createChat = async () => {
     if (!message) return;
@@ -21,6 +22,7 @@ export const Home = () => {
       type: "user",
       createAt: new Date().valueOf(),
       text: message,
+      selectedModel: selectedModel,
     };
 
     const newChat = await createRoom(user.id, newMessage);
@@ -36,9 +38,10 @@ export const Home = () => {
     });
   };
 
+
   useEffect(() => {
     if (transcript === "") return;
-    setMessage(() => ( transcript));
+    setMessage(() => transcript);
   }, [transcript]);
 
   return (

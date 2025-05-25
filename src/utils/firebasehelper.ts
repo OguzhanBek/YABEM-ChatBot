@@ -151,7 +151,7 @@ export const removeRoom = async (roomId: string) => {
   }
 };
 
-export const pushMessage = async (roomId: string, newMessage: Message) => {
+export const pushMessageToFirebase = async (roomId: string, newMessage: Message) => {
   try {
     const roomData = await getRoomData(roomId);
     let messages = roomData.messages || [];

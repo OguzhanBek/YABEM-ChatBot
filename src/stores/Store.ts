@@ -5,13 +5,13 @@ export type UserData = {
   mail: string;
   password: string;
   id: string;
-  otp?: string;  
+  otp?: string;
   active?: boolean;
 };
 
 export type Message =
   | {
-      text: string; 
+      text: string;
       type: "bot";
       id?: string;
       createdAt: number;
@@ -20,6 +20,7 @@ export type Message =
       text: string;
       type: "user";
       id?: string;
+      selectedModel : String 
       createAt: number;
     };
 
@@ -36,6 +37,7 @@ interface StoreState {
   chats: Chats[];
   aiResponseLoader: boolean; // Yükleme durumu
   theme: "light" | "dark"; // Tema
+  selectedModel : String;
   toggleTheme: (value: "light" | "dark") => void; // Tema değiştirme fonksiyonu
   updateChats: (value: Chats[]) => void;
   fetchChats: (userId: string) => Promise<Chats[]>;
@@ -43,6 +45,7 @@ interface StoreState {
   logout: () => void;
   removeUser: () => void;
   setAiResponseLoader: (value: boolean) => void; // Yükleme durumunu güncelle
+  setSelectedModel : ( value :String) => void;
 }
 
 export const useStore = create<StoreState>((set) => ({
@@ -51,6 +54,7 @@ export const useStore = create<StoreState>((set) => ({
     : null,
   chats: [],
   aiResponseLoader: false,
+  selectedModel: "mistral",
   theme: localStorage.getItem("theme") === "dark" ? "dark" : "light",
   toggleTheme: (value) => {
     localStorage.setItem("theme", value);
@@ -91,6 +95,9 @@ export const useStore = create<StoreState>((set) => ({
   },
   setAiResponseLoader: (value) => {
     set(() => ({ aiResponseLoader: value })); // aiResponseLoader'ı güncelle
+  },
+  setSelectedModel: (value) => {
+    set(() => ({ selectedModel: value }));
   },
 }));
 export default useStore;

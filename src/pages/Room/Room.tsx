@@ -3,7 +3,7 @@ import { TextInput } from "../../components/atoms/textInput/TextInput";
 import { MessageList } from "../../components/molecules/messageList/MessageList";
 import { useCallback, useEffect, useState } from "react";
 import useStore, { Chats, Message } from "../../stores/Store";
-import { getRoomData, pushMessage } from "../../utils/firebasehelper";
+import { getRoomData, pushMessageToFirebase } from "../../utils/firebasehelper";
 import { Loader } from "../../components/atoms/loader/Loader";
 import { sendService } from "../../utils/helper";
 import { toast } from "react-toastify";
@@ -12,13 +12,29 @@ import SpeechRecognition, {
 } from "react-speech-recognition";
 
 export const Room = () => {
-  const { aiResponseLoader } = useStore();
+  const { aiResponseLoader, selectedModel } = useStore();
   const { id } = useParams<{ id: string }>();
   const [messageList, setMessageList] = useState<Message[]>([]);
   const [loading, setLoading] = useState(false);
   const [userText, setuserText] = useState("");
-
   const { transcript, listening } = useSpeechRecognition();
+  console.log(selectedModel);
+
+  const userJsonString = localStorage.getItem("user");
+
+  let userId = null; // ID'yi saklamak için bir değişken tanımla
+
+  if (userJsonString) {
+      
+      const userObject = JSON.parse(userJsonString); // json formatında olması zarar veriyor. Javascript objesine dönüştürüd.
+      userId = userObject.id;
+      console.log("Kullanıcı ID'si başarıyla alındı:", userId);
+
+  } else {
+    console.log(
+      "Kullanıcı giriş yapmamış veya localStorage'da 'user' verisi bulunmuyor."
+    );
+  }
 
   const setAiResponseLoader = useStore((state) => state.setAiResponseLoader);
 
@@ -70,8 +86,10 @@ export const Room = () => {
             )
           );
         },
+        selectedModel,
+        userId,
         async (fulltext) => {
-          await pushMessage(id, {
+          await pushMessageToFirebase(id, {
             text: fulltext,
             type: "bot",
             createdAt: Date.now(),
@@ -103,23 +121,29 @@ export const Room = () => {
     const userMessage: Message = {
       text: userText,
       type: "user",
+      selectedModel: selectedModel,
       createAt: new Date().valueOf(),
     };
 
-    let pushmessage = await pushMessage(id, userMessage);
+    let pushmessage = await pushMessageToFirebase(id, userMessage);
     if (pushmessage) {
       setMessageList((prev) => [
         ...prev,
-        { text: userText, type: "user", createAt: Date.now() },
+        {
+          text: userText,
+          type: "user",
+          createAt: Date.now(),
+          selectedModel: selectedModel,
+        },
       ]);
       setuserText("");
       await askAI(userText);
     }
-  }, [userText, id, pushMessage, setMessageList, setuserText, askAI]) 
+  }, [userText, id, pushMessageToFirebase, setMessageList, setuserText, askAI]);
 
   useEffect(() => {
     if (transcript === "") return;
-    setuserText(() => ( transcript));
+    setuserText(() => transcript);
   }, [transcript]);
 
   return (

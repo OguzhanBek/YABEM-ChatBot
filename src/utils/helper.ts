@@ -26,25 +26,31 @@ export const generateOTP = (length = 6) => {
   }
   return result;
 };
+
 export const handleDeleteRoom = async (roomId: string) => {
   await removeRoom(roomId);
 };
+
 export const sendService = async (
   message: string,
   onTokenReceived: (token: string) => void,
-  onFinished?: (fullText: string) => void
+  selectedModel: String,
+  userId : string,
+  onFinished?: (fullText: string) => void,
+  
 ) => {
-  const response = await fetch(`${API_URL}/predict?stream=true` , {
+  const response = await fetch(`http://localhost:5000/predict?stream=true`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ prompt: message }),
+    body: JSON.stringify({ prompt: message , selectedModel , userId}),
   });
-// -------------------------------------BURA SONRADAN EKLENDİ HATA SORUNUNU ÇÖZMEYEBİLİR ------------------------------------------------------
+  // -------------------------------------BURA SONRADAN EKLENDİ HATA SORUNUNU ÇÖZMEYEBİLİR ------------------------------------------------------
 
   if (!response.body) throw new Error("Stream başlatılamadı.");
-  if (!response.ok) {  // Burası sonradan eklendi. Hataların kaynağı burası olursa dikkat et
+  if (!response.ok) {
+    // Burası sonradan eklendi. Hataların kaynağı burası olursa dikkat et
     let errorMsg = `Sunucu hatası (${response.status})`; // Varsayılan mesaj
     try {
       // Sunucudan gelen JSON formatındaki hatayı almaya çalış
@@ -63,11 +69,11 @@ export const sendService = async (
     return; // Hata durumunda fonksiyondan çık
   }
 
-// -----------------------------------------------------------------------------------------------------------------------------------------------------------------
- 
-const reader = response.body.getReader();
+  // -----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+  const reader = response.body.getReader();
   const decoder = new TextDecoder("utf-8");
-  
+
   let partial = "";
   let fullResponse = "";
 
